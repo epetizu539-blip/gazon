@@ -94,7 +94,7 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
       <div
         id="before-after-slider-container"
         ref={containerRef}
-        className="relative w-full h-[320px] sm:h-[450px] rounded-2xl overflow-hidden shadow-2xl select-none cursor-ew-resize border border-slate-200"
+        className="relative w-full h-[320px] sm:h-[450px] rounded-2xl overflow-hidden shadow-2xl select-none cursor-ew-resize border border-slate-200 touch-none"
         onMouseDown={() => setIsDragging(true)}
         onTouchStart={() => setIsDragging(true)}
         onMouseMove={handleMouseMove}

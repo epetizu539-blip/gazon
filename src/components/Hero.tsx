@@ -167,7 +167,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
               </div>
 
               {/* FLOATING BADGE 1: FRESH HARVEST */}
-              <div className="absolute -top-4 -left-6 z-10 bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-3.5 flex items-center gap-3 border border-white/40 max-w-[220px] animate-bounce duration-5000">
+              <div className="absolute -top-4 -left-2 sm:-left-6 z-10 bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-3.5 flex items-center gap-3 border border-white/40 max-w-[220px] sm:max-w-none animate-bounce duration-5000">
                 <div className="w-10 h-10 rounded-full bg-brand-light/10 text-brand-main flex items-center justify-center shrink-0">
                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
@@ -180,7 +180,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
               </div>
 
               {/* FLOATING BADGE 2: LIVE METRICS */}
-              <div className="absolute bottom-12 -right-6 z-10 bg-brand-dark/95 backdrop-blur-md shadow-xl rounded-2xl p-4 flex items-center gap-3.5 border border-slate-700/30 text-white max-w-[200px]">
+              <div className="absolute bottom-12 -right-2 sm:-right-6 z-10 bg-brand-dark/95 backdrop-blur-md shadow-xl rounded-2xl p-4 flex items-center gap-3.5 border border-slate-700/30 text-white max-w-[200px]">
                 <div className="w-10 h-10 rounded-xl bg-brand-gold flex items-center justify-center shrink-0 font-display font-black text-brand-dark text-lg">
                   12
                 </div>
