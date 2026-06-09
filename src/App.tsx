@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { Header } from './components/Header';
+import { Logo } from './components/Logo';
 import { Hero } from './components/Hero';
 import { BeforeAfter } from './components/BeforeAfter';
 import { Calculator } from './components/Calculator';
@@ -58,10 +59,10 @@ export default function App() {
   const activeReview = CASE_REVIEWS[activeReviewIdx];
 
   const metrics = [
-    { num: '3 часа', text: 'Среднее время от среза мятлика в питомнике до разгрузки' },
+    { num: '3 часа', text: 'Среднее время от среза мятлика на поле до разгрузки' },
     { num: '12 месяцев', text: 'Гарантия на 100% приживаемость дерна по договору' },
-    { num: '1500+ участков', text: 'Озеленено и благоустроено нашей компанией с 2014 года' },
-    { num: '120 Га', text: 'Собственная площадь полей в Раменском районе МО' }
+    { num: '1500+ участков', text: 'Озеленено и благоустроено нашей компанией с 2006 года' },
+    { num: '720 Га', text: 'Собственные поля в МО' }
   ];
 
   return (
@@ -446,13 +447,16 @@ export default function App() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             
             {/* Logo details */}
-            <div className="text-left">
-              <span className="block text-sm font-display font-black text-white tracking-widest uppercase">
-                ИЗУМРУДНЫЙ ГАЗОН
-              </span>
-              <span className="block text-[9px] uppercase tracking-wider text-slate-500 mt-1">
-                Группа компаний по благоустройству • СНиП РФ • ГОСТ
-              </span>
+            <div className="flex items-center gap-3">
+              <Logo className="w-10 h-10" />
+              <div>
+                <span className="block text-sm font-display font-black text-white tracking-widest uppercase">
+                  ЛАНДШАФТ.РФ
+                </span>
+                <span className="block text-[9px] uppercase tracking-wider text-slate-500 mt-1">
+                  Группа компаний по благоустройству • СНиП РФ • ГОСТ
+                </span>
+              </div>
             </div>
 
             {/* Micro Links */}
@@ -470,7 +474,7 @@ export default function App() {
 
           <div className="border-t border-slate-900/80 pt-6 mt-6 text-center md:text-left flex flex-col md:flex-row items-center justify-between text-[10px] text-slate-550 text-slate-500 space-y-4 md:space-y-0 leading-relaxed">
             <p className="max-w-2xl">
-              © 2014-2026 ООО «ИЗУМРУДНЫЙ ГАЗОН» • ИНН 7714341930 • ОГРН 1157746352920. Все права защищены. <br className="hidden sm:block" />
+              © 2006-2026 ООО «ЛАНДШАФТ РФ» • ИНН 7714341930 • ОГРН 1157746352920. Все права защищены. <br className="hidden sm:block" />
               Любое копирование медиа-материалов, изображений или текстового наполнения карается законом об авторских правах РФ. Информация на сайте носит справочный характер и не является публичной офертой.
             </p>
             <div className="flex items-center gap-1.5 shrink-0">

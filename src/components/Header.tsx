@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Phone, CalendarCheck, Layers, Menu, X, ArrowRight } from 'lucide-react';
+import { Logo } from './Logo';
 
 interface HeaderProps {
   onOpenModal: (title: string, subtitle: string, buttonText: string, source: string) => void;
@@ -48,21 +49,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
         <div className="flex items-center justify-between">
           
           {/* Logo Brand Title */}
-          <a href="#" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-dark to-brand-emerald flex items-center justify-center text-white shadow-md shadow-brand-main/10 group-hover:scale-105 transition-transform">
-              {/* Custom SVG grass blades icon representing Rolled Lawn */}
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                <path d="M12,2A10,10,0,0,0,2,12a10,10,0,0,0,10,10A10,10,0,0,0,22,12,10,10,0,0,0,12,2Zm1,17.4V13H11v6.4a8,8,0,0,1-6.1-5.1A1,1,0,0,0,3,14a8,8,0,1,1,16,0,1,1,0,0,0-1.9.3A8,8,0,0,1,13,19.4ZM11,11V6a1,1,0,0,1,2,0v5a1,1,0,0,1-2,0Z"/>
-              </svg>
-            </div>
-            <div>
-              <span className="block text-base sm:text-lg font-display font-black text-brand-dark leading-none tracking-tight">
-                ИЗУМРУДНЫЙ
-              </span>
-              <span className="block text-[10px] sm:text-xs font-bold text-brand-emerald uppercase tracking-widest leading-none mt-1">
-                ГАЗОН • Питомник
-              </span>
-            </div>
+          <a href="#" className="flex items-center gap-2 group cursor-pointer">
+            <Logo hasText={true} className="w-11 h-11 shrink-0 group-hover:scale-105 transition-transform" />
           </a>
 
           {/* Desktop Navigation */}
@@ -175,7 +163,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
               </button>
             </div>
             <p className="text-[10px] text-slate-400 text-center leading-normal">
-              ООО «Изумрудный Газон» • ОГРН 1157746352920 <br />Работаем по всей Москве и Московской области
+              ООО «ЛАНДШАФТ РФ» • ОГРН 1157746352920 <br />Работаем по всей Москве и Московской области
             </p>
           </div>
         </div>

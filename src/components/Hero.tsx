@@ -41,15 +41,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
             {/* Core Promise Title */}
             <div className="space-y-4">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] lg:leading-[1.1] font-display font-black text-brand-dark tracking-tight">
-                Идеальный изумрудный <br className="hidden sm:block" />
+                Премиальный рулонный газон <br className="hidden sm:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-main via-brand-emerald to-brand-light">
-                  газон под ключ за 1 день
+                  без переплат посредникам.
                 </span> <br />
-                с гарантией 12 месяцев по договору
+                100% элитный мятлик без сорняков и проплешин.
               </h1>
               
               <p className="text-slate-600 font-medium text-sm sm:text-base md:text-lg max-w-2xl leading-relaxed">
-                Собственный питомник в Подмосковье площадью 120 Га. Укладываем газон, который <span className="text-brand-main font-bold">срезали всего 3 часа назад</span>. Бесплатный выезд агронома-замерщика сегодня!
+                Собственные поля в Подмосковье площадью 720 Га. Укладываем газон, который <span className="text-brand-main font-bold">срезали всего 3 часа назад</span>. Бесплатный выезд агронома-замерщика сегодня!
               </p>
             </div>
 
@@ -59,7 +59,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
                 <CheckCircle2 className="w-5 h-5 text-brand-emerald shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-xs sm:text-sm font-extrabold text-brand-dark">100% приживаемость</h4>
-                  <p className="text-[11px] text-slate-500 mt-0.5">В случае пожелтения — заменим пласты по гарантии бесплатно</p>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Если трава не приживется — бесплатно заменим пласты по договору</p>
                 </div>
               </div>
 

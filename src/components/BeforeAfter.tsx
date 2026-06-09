@@ -6,6 +6,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Eye, ArrowRight } from 'lucide-react';
 
+
+
 interface BeforeAfterProps {
   beforeImage: string;
   afterImage: string;
@@ -107,11 +109,6 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           referrerPolicy="no-referrer"
         />
-        
-        {/* BEFORE BADGE */}
-        <span className="absolute bottom-4 left-4 z-10 bg-brand-soil/95 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider backdrop-saturate-150">
-          ДО работы
-        </span>
 
         {/* AFTER IMAGE (Top Layer, Clipped) */}
         <div
@@ -127,29 +124,18 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
           />
         </div>
 
-        {/* AFTER BADGE */}
-        <span className="absolute bottom-4 right-4 z-10 bg-brand-main/95 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider backdrop-saturate-150">
-          ПОСЛЕ (За 1 день)
-        </span>
-
         {/* SLIDER DIVIDER LINE */}
         <div
           className="absolute top-0 bottom-0 w-1 bg-white/90 shadow-[0_0_15px_rgba(0,0,0,0.4)] z-20"
           style={{ left: `${sliderPosition}%` }}
         >
           {/* DRAG HANDLE BADGE */}
-          <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-brand-gold text-brand-dark flex items-center justify-center shadow-2xl border-4 border-white transition-transform scale-100 hover:scale-110 active:scale-95">
-            <div className="flex gap-1">
-              <span className="text-sm font-black select-none pointer-events-none">◀</span>
-              <span className="text-sm font-black select-none pointer-events-none">▶</span>
+          <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white text-slate-800 flex items-center justify-center shadow-lg border-2 border-slate-200 transition-transform scale-100 hover:scale-110 active:scale-95">
+            <div className="flex gap-1 text-[10px]">
+              <span className="font-bold select-none pointer-events-none">◀</span>
+              <span className="font-bold select-none pointer-events-none">▶</span>
             </div>
           </div>
-        </div>
-
-        {/* Floating Quick Action indicator */}
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-brand-dark/80 backdrop-blur-md text-white text-[10px] sm:text-xs font-semibold px-4 py-2 rounded-full flex items-center gap-1.5 pointer-events-none">
-          <Eye className="w-3.5 h-3.5 text-brand-emerald animate-pulse" />
-          <span>Перетаскивайте ползунок</span>
         </div>
       </div>
     </div>

@@ -3,10 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
-import { LAWN_TYPES } from '../data';
-import { CalculatorState, CalculatorResult, LawnCategory } from '../types';
-import { HelpCircle, Sparkles, CheckCircle2, ChevronRight, Truck, Timer, Receipt } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, CheckCircle2, ChevronRight, ChevronLeft, Timer, Receipt, HelpCircle } from 'lucide-react';
 
 interface CalculatorProps {
   onOpenModalWithData: (
@@ -19,510 +17,605 @@ interface CalculatorProps {
 }
 
 export const Calculator: React.FC<CalculatorProps> = ({ onOpenModalWithData }) => {
+  const [step, setStep] = useState<number>(1);
   const [area, setArea] = useState<number>(150);
-  const [lawnCategory, setLawnCategory] = useState<LawnCategory>('premium');
-  const [options, setOptions] = useState({
-    soilPreparation: true,
-    removeOldWeeds: false,
-    delivery: true,
-    molesMesh: false,
-    autoWatering: false,
-    maintenance: true
-  });
+  const [ground, setGround] = useState<'basic' | 'prep'>('basic');
+  const [irrigation, setIrrigation] = useState<'yes' | 'no'>('no');
 
-  const [result, setResult] = useState<CalculatorResult>({
-    lawnCost: 0,
-    soilPrepCost: 0,
-    weedRemovalCost: 0,
-    deliveryCost: 0,
-    molesMeshCost: 0,
-    autoWateringCost: 0,
-    maintenanceCost: 0,
-    subtotal: 0,
-    discount: 0,
-    total: 0,
-    daysToComplete: 1
-  });
+  // Multi-step calculations
+  const lawnCost = area * 250;
+  const groundCost = area * (ground === 'prep' ? 450 : 0);
+  const workCost = area * 200;
+  const irrigationCost = area * (irrigation === 'yes' ? 1000 : 0);
 
-  // Calculate whenever params change
-  useEffect(() => {
-    const selectedLawn = LAWN_TYPES.find((l) => l.id === lawnCategory) || LAWN_TYPES[1];
-    
-    // Core Costs
-    const lawnCost = area * selectedLawn.pricePerSqm;
-    const soilPrepCost = options.soilPreparation ? area * 80 : 0; // 80 ₽/sqm
-    const weedRemovalCost = options.removeOldWeeds ? area * 60 : 0; // 60 ₽/sqm
-    
-    // Delivery (5000 ₽ flat rate, free for > 350 sqm)
-    const deliveryCost = options.delivery ? (area >= 350 ? 0 : 5000) : 0;
-    
-    const molesMeshCost = options.molesMesh ? area * 110 : 0; // 110 ₽/sqm
-    const autoWateringCost = options.autoWatering ? area * 240 : 0; // 240 ₽/sqm
-    const maintenanceCost = options.maintenance ? area * 30 : 0; // 30 ₽/sqm
+  // Delivery details calculation depending on area
+  const getDeliveryDetails = (currentArea: number) => {
+    let cost = 0;
+    let desc = '';
 
-    const subtotal = lawnCost + soilPrepCost + weedRemovalCost + deliveryCost + molesMeshCost + autoWateringCost + maintenanceCost;
-    
-    // Discounts
-    // Bulk discount: >150 sqm: 5%, >400 sqm: 8%, >800 sqm: 12%
-    let discountPercent = 0.05; // Base 5% greeting discount
-    if (area > 800) {
-      discountPercent = 0.12;
-    } else if (area > 400) {
-      discountPercent = 0.08;
-    } else if (area > 150) {
-      discountPercent = 0.06;
+    if (currentArea <= 100) {
+      cost = 15000;
+      desc = 'Малый грузовик';
+    } else if (currentArea <= 300) {
+      cost = 40000;
+      desc = '10-тонная машина';
+    } else if (currentArea <= 600) {
+      cost = 55000;
+      desc = 'Доставка фурой';
+    } else {
+      const tempArea = currentArea;
+      let numFura = Math.floor(tempArea / 600);
+      const rem = tempArea % 600;
+      let numTenTon = 0;
+      let numSmall = 0;
+
+      if (rem > 0) {
+        if (rem <= 100) {
+          numSmall = 1;
+        } else if (rem <= 300) {
+          numTenTon = 1;
+        } else if (rem <= 400) {
+          numFura += 1;
+        } else {
+          numFura += 1;
+        }
+      }
+
+      cost = (numFura * 55000) + (numTenTon * 40000) + (numSmall * 15000);
+      const parts = [];
+      if (numFura > 0) parts.push(`${numFura} x Фура`);
+      if (numTenTon > 0) parts.push(`${numTenTon} x 10т`);
+      if (numSmall > 0) parts.push(`${numSmall} x Малая`);
+      
+      desc = `Комбинированная (${parts.join(' + ')})`;
     }
 
-    const discount = Math.round(subtotal * discountPercent);
-    const total = Math.max(0, subtotal - discount);
+    return { cost, desc };
+  };
 
-    // Timeline estimate
-    let daysToComplete = 1;
-    if (area > 1000) {
-      daysToComplete = 3;
-    } else if (area > 400) {
-      daysToComplete = 2;
+  const delivery = getDeliveryDetails(area);
+
+  // Discount calculation: only on lawn and work
+  let discountPercent = 0;
+  if (area >= 500) {
+    discountPercent = 0.15;
+  } else if (area >= 300) {
+    discountPercent = 0.10;
+  } else if (area >= 150) {
+    discountPercent = 0.05;
+  }
+
+  const discountValue = Math.round((lawnCost + workCost) * discountPercent);
+  const subtotal = lawnCost + groundCost + workCost + delivery.cost + irrigationCost;
+  const total = Math.max(0, subtotal - discountValue);
+
+  // Duration calculation
+  let daysText = '1 день';
+  if (area > 600) {
+    daysText = '2-3 дня';
+  } else if (area > 200) {
+    daysText = '1-2 дня';
+  }
+
+  // Next / Previous step controls
+  const handleNext = () => {
+    if (step < 3) {
+      setStep((prev) => prev + 1);
+    } else {
+      handleOpenLeadForm();
     }
-
-    setResult({
-      lawnCost,
-      soilPrepCost,
-      weedRemovalCost,
-      deliveryCost,
-      molesMeshCost,
-      autoWateringCost,
-      maintenanceCost,
-      subtotal,
-      discount,
-      total,
-      daysToComplete
-    });
-  }, [area, lawnCategory, options]);
-
-  const handleCheckboxChange = (key: keyof typeof options) => {
-    setOptions((prev) => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
   };
 
-  const handleAreaSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-    setArea(isNaN(value) ? 50 : value);
+  const handlePrev = () => {
+    if (step > 1) {
+      setStep((prev) => prev - 1);
+    }
   };
 
-  const handleAreaInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = parseInt(e.target.value.replace(/\D/g, ''), 10);
-    if (isNaN(value)) value = 0;
-    setArea(value);
+  const setAreaPreset = (val: number) => {
+    setArea(val);
   };
 
-  const handleCategorySelect = (id: LawnCategory) => {
-    setLawnCategory(id);
-  };
-
-  const handleGetSummary = () => {
-    const selectedLawn = LAWN_TYPES.find((l) => l.id === lawnCategory) || LAWN_TYPES[1];
+  const handleOpenLeadForm = () => {
     onOpenModalWithData(
-      'Получить точную смету и 3 подарка',
-      `Мы укрепим за вами рассчет стоимости ${result.total.toLocaleString('ru-RU')} ₽ и отправим пошаговый чек-лист подготовки участка на этот номер.`,
-      'Получить смету со скидкой',
-      'calculator_quote',
+      'Получить точную смету и подарки',
+      `Мы зафиксируем за вами расчет на сумму ${total.toLocaleString('ru-RU')} ₽ и отправим детальный чек-лист подготовки участка на этот номер.`,
+      'Зафиксировать результаты расчета',
+      'calculator_stepped_quote',
       {
-        area: `${area} м²`,
-        lawnCategory: selectedLawn.nameRu,
-        totalPrice: result.total,
-        soilPrep: options.soilPreparation ? 'Да' : 'Нет',
-        antiMole: options.molesMesh ? 'Да' : 'Нет',
-        autoWater: options.autoWatering ? 'Да' : 'Нет'
+        'Площадь': `${area} м²`,
+        'Подготовка грунта': ground === 'prep' ? 'Требуется полная подготовка (+450 ₽/м²)' : 'Чистая земля (Базовая)',
+        'Автоматический полив': irrigation === 'yes' ? 'Да, спроектировать (+1 000 ₽/м²)' : 'Нет, ручной полив',
+        'Стоимость укладки': `${total.toLocaleString('ru-RU')} ₽`,
+        'Срок реализации': daysText,
+        'Подарки зафиксированы': 'Да'
       }
     );
   };
 
   return (
-    <section id="calculator" className="py-16 sm:py-24 bg-slate-50 border-y border-slate-100">
+    <section id="calculator" className="py-16 sm:py-24 bg-brand-soil/[0.02] border-y border-slate-100/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Title */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-brand-emerald bg-brand-emerald/10 mb-3 uppercase tracking-wider">
+        {/* Title Block */}
+        <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
+          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold text-brand-emerald bg-brand-emerald/10 mb-3 uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" />
-            Умный онлайн калькулятор
+            Интерактивный расчет стоимости
           </span>
-          <h2 className="text-2xl sm:text-3.5xl md:text-4xl font-display font-black text-brand-dark tracking-tight">
-            Рассчитайте стоимость укладки <br />
-            и получите 3 подарка за 1 минуту
+          <h2 className="text-2.5xl sm:text-3.5xl md:text-4xl lg:text-5.5xl font-display font-black text-brand-dark tracking-tight">
+            Калькулятор укладки газона «под ключ»
           </h2>
-          <p className="text-slate-500 text-sm sm:text-base mt-2">
-            Сделайте предварительный расчет. Цены указаны с учетом среза травы в питомнике и работ по ГОСТ.
+          <p className="text-slate-500 text-sm sm:text-base mt-3 max-w-2xl mx-auto">
+            Ответьте на 3 простых вопроса, чтобы мгновенно получить детализированную смету и зафиксировать сезонные подарки.
           </p>
         </div>
 
-        {/* Content Layout Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
+        {/* Calculator Main Container Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* CALCULATOR SELECTORS AND INPUTS (LEFT) */}
-          <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-xl space-y-6 text-left">
+          {/* Left Column: Form & Steps */}
+          <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-150/90 p-5 sm:p-8 shadow-sm text-left">
             
-            {/* Step 1: Area size */}
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <label className="text-sm font-bold text-slate-800 uppercase tracking-wide">
-                  1. Укажите площадь участка <span className="text-brand-main">(м²)</span>
-                </label>
-                <div className="relative">
+            {/* Progress indicator */}
+            <div className="mb-8">
+              <div className="flex justify-between items-center mb-2.5">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                  Шаг <span className="text-brand-dark font-black">{step}</span> из 3
+                </span>
+                <span className="text-xs font-bold text-brand-main">
+                  {Math.round((step / 3) * 100)}% заполнено
+                </span>
+              </div>
+              <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-brand-main transition-all duration-300"
+                  style={{ width: `${(step / 3) * 100}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Step Content: Step 1 (Area) */}
+            {step === 1 && (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-display font-black text-brand-dark mb-2">
+                    1. Укажите площадь вашего участка
+                  </h3>
+                  <p className="text-slate-500 text-xs sm:text-sm">
+                    Двигайте ползунок или введите точное значение вручную. Мы рассчитаем точный объём рулонов и автоматически определим подходящий грузовой транспорт.
+                  </p>
+                </div>
+
+                <div className="bg-slate-50/60 rounded-2xl p-5 sm:p-6 border border-slate-100">
+                  <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+                    <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider">
+                      Площадь озеленения:
+                    </span>
+                    <div className="relative flex items-center">
+                      <input
+                        type="number"
+                        min="10"
+                        max="5000"
+                        value={area}
+                        onChange={(e) => {
+                          let val = parseInt(e.target.value);
+                          if (isNaN(val)) val = 10;
+                          setArea(val);
+                        }}
+                        onBlur={() => {
+                          if (area < 10) setArea(10);
+                          if (area > 5000) setArea(5000);
+                        }}
+                        className="w-32 bg-white border-2 border-slate-200 focus:border-brand-main focus:outline-none text-brand-dark text-xl font-display font-black py-2 px-4 rounded-xl text-center pr-10 transition-all font-sans"
+                      />
+                      <span className="absolute right-4 text-xs font-extrabold text-slate-400">м²</span>
+                    </div>
+                  </div>
+
                   <input
-                    type="text"
-                    value={area === 0 ? '' : area}
-                    onChange={handleAreaInputChange}
-                    onBlur={() => { if (area < 10) setArea(10); }}
-                    className="w-24 px-2.5 py-1.5 font-display font-black text-center text-brand-dark bg-slate-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-main/20 border border-slate-200 text-sm"
+                    type="range"
+                    min="10"
+                    max="2000"
+                    step="10"
+                    value={area > 2000 ? 2000 : area}
+                    onChange={(e) => setArea(parseInt(e.target.value))}
+                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer focus:outline-none accent-brand-main"
                   />
-                  <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">м²</span>
+
+                  {/* Grid Labels under Slider */}
+                  <div className="flex justify-between text-[10px] text-slate-400 font-bold px-1 mt-3">
+                    <span>10 м²</span>
+                    <span>500 м²</span>
+                    <span>1000 м²</span>
+                    <span>1500 м²</span>
+                    <span>2000 м²+</span>
+                  </div>
+                </div>
+
+                {/* Popular sizes presets */}
+                <div>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-3">
+                    Популярные размеры:
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { val: 50, label: '50 м² (5 соток)' },
+                      { val: 150, label: '150 м² (1.5 сотки)' },
+                      { val: 300, label: '300 м² (3 сотки)' },
+                      { val: 600, label: '600 м² (6 соток)' },
+                      { val: 1200, label: '1200 м² (12 соток)' }
+                    ].map((btn) => (
+                      <button
+                        key={btn.val}
+                        type="button"
+                        onClick={() => setAreaPreset(btn.val)}
+                        className={`px-3.5 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                          area === btn.val
+                            ? 'bg-brand-dark text-white border-brand-dark shadow-md'
+                            : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200'
+                        }`}
+                      >
+                        {btn.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
+            )}
 
-              {/* Slider */}
-              <input
-                type="range"
-                min="10"
-                max="2000"
-                step="5"
-                value={area}
-                onChange={handleAreaSliderChange}
-                className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-brand-emerald focus:outline-none"
-              />
+            {/* Step Content: Step 2 (Soil ground condition) */}
+            {step === 2 && (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-display font-black text-brand-dark mb-2">
+                    2. Что сейчас находится на месте будущего газона?
+                  </h3>
+                  <p className="text-slate-500 text-xs sm:text-sm">
+                    От этого зависит глубина подготовительных ландшафтных работ перед укладкой рулонов.
+                  </p>
+                </div>
 
-              {/* Segment markings */}
-              <div className="flex justify-between text-[10px] text-slate-400 font-bold px-1 mt-2">
-                <span>10 м²</span>
-                <span>200 м²</span>
-                <span>500 м² (Бесплатная доставка)</span>
-                <span>1000 м²</span>
-                <span>2000 м²+</span>
-              </div>
-            </div>
-
-            {/* Step 2: Choose Lawn Sort */}
-            <div className="space-y-3 pt-2">
-              <label className="block text-sm font-bold text-slate-800 uppercase tracking-wide">
-                2. Выберите сорт газона
-              </label>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {LAWN_TYPES.map((lawn) => (
-                  <button
-                    key={lawn.id}
-                    onClick={() => handleCategorySelect(lawn.id)}
-                    className={`p-4 rounded-2xl text-left border text-sm transition-all cursor-pointer relative flex flex-col justify-between ${
-                      lawnCategory === lawn.id
-                        ? 'border-brand-main bg-brand-emerald/5 ring-4 ring-brand-main/10 font-bold'
-                        : 'border-slate-150 hover:border-slate-350 hover:bg-slate-50/50'
+                <div className="space-y-3.5">
+                  {/* Option 1: Basic */}
+                  <label
+                    onClick={() => setGround('basic')}
+                    className={`flex items-start gap-4 p-4.5 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all bg-white relative ${
+                      ground === 'basic'
+                        ? 'border-brand-main bg-brand-emerald/[0.03]'
+                        : 'border-slate-150 hover:border-slate-300 hover:bg-slate-50/50'
                     }`}
                   >
-                    <div className="flex justify-between items-start gap-1">
-                      <span className="font-extrabold text-[#111827] text-sm">
-                        {lawn.nameRu}
+                    <input
+                      type="radio"
+                      name="ground"
+                      value="basic"
+                      checked={ground === 'basic'}
+                      onChange={() => setGround('basic')}
+                      className="mt-1 accent-brand-main w-4 h-4 cursor-pointer shrink-0"
+                    />
+                    <div className="flex-grow pr-16 text-left">
+                      <span className="block font-bold text-brand-dark text-sm sm:text-base leading-snug">
+                        Чистая земля (Базовая подготовка)
                       </span>
-                      {lawnCategory === lawn.id && (
-                        <span className="w-4 h-4 rounded-full bg-brand-main flex items-center justify-center text-white text-[10px]">✓</span>
-                      )}
+                      <span className="block text-slate-400 text-xs mt-1 leading-relaxed">
+                        Основание ровное, без сорняков и дерна. Требуется только финишное планирование граблями и финишное уплотнение катком.
+                      </span>
                     </div>
-                    
-                    <p className="text-[10px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">
-                      {lawn.description}
-                    </p>
+                    <span className="text-xs bg-brand-emerald/10 text-brand-main font-bold px-2.5 py-1 rounded-md absolute top-4 sm:top-5 right-4 sm:right-5">
+                      +0 ₽/м²
+                    </span>
+                  </label>
 
-                    <div className="flex items-baseline gap-1.5 mt-3 pt-2.5 border-t border-slate-100">
-                      <span className="font-display font-black text-brand-main text-base">
-                        {lawn.pricePerSqm} ₽<span className="text-[10px] font-medium text-slate-400">/м²</span>
+                  {/* Option 2: Prep */}
+                  <label
+                    onClick={() => setGround('prep')}
+                    className={`flex items-start gap-4 p-4.5 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all bg-white relative ${
+                      ground === 'prep'
+                        ? 'border-brand-main bg-brand-emerald/[0.03]'
+                        : 'border-slate-150 hover:border-slate-300 hover:bg-slate-50/50'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="ground"
+                      value="prep"
+                      checked={ground === 'prep'}
+                      onChange={() => setGround('prep')}
+                      className="mt-1 accent-brand-main w-4 h-4 cursor-pointer shrink-0"
+                    />
+                    <div className="flex-grow pr-16 text-left">
+                      <span className="block font-bold text-brand-dark text-sm sm:text-base leading-snug">
+                        Требует подготовку (Сорняки / Дерн / Неровности)
                       </span>
-                      {lawn.oldPricePerSqm && (
-                        <span className="text-xs line-through text-slate-450 text-slate-400">
-                          {lawn.oldPricePerSqm} ₽
-                        </span>
-                      )}
+                      <span className="block text-slate-400 text-xs mt-1 leading-relaxed">
+                        Требуется вспашка мотоблоком, выборка корней сорных трав, завоз/распределение плодородного грунта и планировка под лазер.
+                      </span>
                     </div>
-                  </button>
-                ))}
+                    <span className="text-xs bg-brand-emerald/10 text-brand-main font-bold px-2.5 py-1 rounded-md absolute top-4 sm:top-5 right-4 sm:right-5">
+                      +450 ₽/м²
+                    </span>
+                  </label>
+                </div>
               </div>
+            )}
+
+            {/* Step Content: Step 3 (Irrigation) */}
+            {step === 3 && (
+              <div className="space-y-6">
+                <div>
+                  <div className="flex items-start justify-between gap-4 mb-2">
+                    <h3 className="text-xl sm:text-2xl font-display font-black text-brand-dark">
+                      3. Необходим ли автоматический полив?
+                    </h3>
+                    <span className="bg-brand-gold/25 text-brand-amber font-display font-black text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider animate-pulse shrink-0">
+                      Акция!
+                    </span>
+                  </div>
+                  <p className="text-slate-500 text-xs sm:text-sm">
+                    При выборе проектирования полива "под ключ" — вы экономите до 15 000 рублей на инженерном проекте системы.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Option Yes */}
+                  <label
+                    onClick={() => setIrrigation('yes')}
+                    className={`flex flex-col p-4 w-full rounded-2xl border-2 cursor-pointer transition-all bg-white relative text-left justify-between h-full min-h-[170px] ${
+                      irrigation === 'yes'
+                        ? 'border-brand-main bg-brand-emerald/[0.03]'
+                        : 'border-slate-150 hover:border-slate-300 hover:bg-slate-50/50'
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-center gap-2.5 mb-2">
+                        <input
+                          type="radio"
+                          name="irrigation"
+                          value="yes"
+                          checked={irrigation === 'yes'}
+                          onChange={() => setIrrigation('yes')}
+                          className="accent-brand-main w-4 h-4 cursor-pointer shrink-0"
+                        />
+                        <span className="font-bold text-brand-dark text-base">Да, спроектировать</span>
+                      </div>
+                      <span className="block text-slate-400 text-xs leading-relaxed">
+                        Скрытые магистрали Hunter/Rain Bird монтируются до укладки. Проект полива на ваш участок — в ПОДАРОК.
+                      </span>
+                    </div>
+
+                    <div className="mt-4 pt-3.5 border-t border-slate-100 flex justify-between items-center bg-transparent">
+                      <span className="text-[10px] uppercase tracking-wide text-slate-400 font-bold">Оборудование + монтаж</span>
+                      <span className="text-xs bg-brand-emerald/15 text-brand-main font-bold px-2 py-0.5 rounded-md">
+                        +1 000 ₽/м²
+                      </span>
+                    </div>
+                  </label>
+
+                  {/* Option No */}
+                  <label
+                    onClick={() => setIrrigation('no')}
+                    className={`flex flex-col p-4 w-full rounded-2xl border-2 cursor-pointer transition-all bg-white relative text-left justify-between h-full min-h-[170px] ${
+                      irrigation === 'no'
+                        ? 'border-brand-main bg-brand-emerald/[0.03]'
+                        : 'border-slate-150 hover:border-slate-300 hover:bg-slate-50/50'
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-center gap-2.5 mb-2">
+                        <input
+                          type="radio"
+                          name="irrigation"
+                          value="no"
+                          checked={irrigation === 'no'}
+                          onChange={() => setIrrigation('no')}
+                          className="accent-brand-main w-4 h-4 cursor-pointer shrink-0"
+                        />
+                        <span className="font-bold text-brand-dark text-base">Нет, буду поливать сам</span>
+                      </div>
+                      <span className="block text-slate-400 text-xs leading-relaxed">
+                        Будет использоваться ручной полив из шлангов или дождевателей. В подарок зафиксируем гайд по нормам полива.
+                      </span>
+                    </div>
+
+                    <div className="mt-4 pt-3.5 border-t border-slate-100 flex justify-between items-center bg-transparent font-sans">
+                      <span className="text-[10px] uppercase tracking-wide text-slate-400 font-bold">Доп. работы</span>
+                      <span className="text-xs bg-slate-100 text-slate-500 font-bold px-2 py-0.5 rounded-md">
+                        0 ₽
+                      </span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            )}
+
+            {/* Stepped Controls Section */}
+            <div className="flex justify-between items-center mt-8 pt-6 border-t border-slate-100 bg-transparent">
+              {step > 1 ? (
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  className="px-5 py-3 cursor-pointer bg-white hover:bg-slate-50 text-brand-dark border border-slate-200 font-bold rounded-xl transition-all flex items-center gap-2 text-xs sm:text-sm"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Назад
+                </button>
+              ) : (
+                <div />
+              )}
+
+              <button
+                type="button"
+                onClick={handleNext}
+                className="px-6 py-3 cursor-pointer bg-brand-main hover:bg-brand-main/90 text-white font-bold rounded-xl transition-all flex items-center gap-2 shadow-md shadow-brand-main/20 text-xs sm:text-sm"
+              >
+                {step === 3 ? 'Рассчитать смету' : 'Далее'}
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
 
-            {/* Step 3: Additional Options Checkboxes */}
-            <div className="space-y-3 pt-2">
-              <label className="block text-sm font-bold text-slate-800 uppercase tracking-wide">
-                3. Добавьте услуги по подготовке грунта и монтажу
-              </label>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                
-                {/* Soil Preparation */}
-                <button
-                  type="button"
-                  onClick={() => handleCheckboxChange('soilPreparation')}
-                  className={`p-3.5 rounded-xl border text-xs text-left cursor-pointer transition-all flex items-start gap-3 ${
-                    options.soilPreparation ? 'border-brand-main bg-brand-emerald/5' : 'border-slate-200 hover:bg-slate-50'
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={options.soilPreparation}
-                    readOnly
-                    className="mt-0.5 rounded text-brand-main focus:ring-brand-main/20 shrink-0 cursor-pointer"
-                  />
-                  <div>
-                    <p className="font-bold text-slate-850">Вспашка и подготовка (+80 ₽/м²)</p>
-                    <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed">Расчистка земли, культивация фрезами, укатка, выравнивание по лазеру.</p>
-                  </div>
-                </button>
-
-                {/* Remove Old Weeds */}
-                <button
-                  type="button"
-                  onClick={() => handleCheckboxChange('removeOldWeeds')}
-                  className={`p-3.5 rounded-xl border text-xs text-left cursor-pointer transition-all flex items-start gap-3 ${
-                    options.removeOldWeeds ? 'border-brand-main bg-brand-emerald/5' : 'border-slate-200 hover:bg-slate-50'
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={options.removeOldWeeds}
-                    readOnly
-                    className="mt-0.5 rounded text-brand-main focus:ring-brand-main/20 shrink-0 cursor-pointer"
-                  />
-                  <div>
-                    <p className="font-bold text-slate-850">Борьба с бурьяном (+60 ₽/м²)</p>
-                    <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed">Обработка сорняков системными гербицидами, снятие дерна спецтехникой.</p>
-                  </div>
-                </button>
-
-                {/* Moles protection grid */}
-                <button
-                  type="button"
-                  onClick={() => handleCheckboxChange('molesMesh')}
-                  className={`p-3.5 rounded-xl border text-xs text-left cursor-pointer transition-all flex items-start gap-3 ${
-                    options.molesMesh ? 'border-brand-main bg-brand-emerald/5' : 'border-slate-200 hover:bg-slate-50'
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={options.molesMesh}
-                    readOnly
-                    className="mt-0.5 rounded text-brand-main focus:ring-brand-main/20 shrink-0 cursor-pointer"
-                  />
-                  <div>
-                    <p className="font-bold text-slate-850">Сетка от кротов (+110 ₽/м²)</p>
-                    <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed">Прочная мелкоячеистая полимерная сетка с креплением колышками.</p>
-                  </div>
-                </button>
-
-                {/* Auto watering system */}
-                <button
-                  type="button"
-                  onClick={() => handleCheckboxChange('autoWatering')}
-                  className={`p-3.5 rounded-xl border text-xs text-left cursor-pointer transition-all flex items-start gap-3 ${
-                    options.autoWatering ? 'border-brand-main bg-brand-emerald/5' : 'border-slate-200 hover:bg-slate-50'
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={options.autoWatering}
-                    readOnly
-                    className="mt-0.5 rounded text-brand-main focus:ring-brand-main/20 shrink-0 cursor-pointer"
-                  />
-                  <div>
-                    <p className="font-bold text-slate-850">Автополив под ключ (+240 ₽/м²)</p>
-                    <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed">Трубопроводы, электромагнитные клапана, роторные дождеватели, пульт.</p>
-                  </div>
-                </button>
-
-                {/* Soil delivery */}
-                <button
-                  type="button"
-                  onClick={() => handleCheckboxChange('delivery')}
-                  className={`p-3.5 rounded-xl border text-xs text-left cursor-pointer transition-all flex items-start gap-3 ${
-                    options.delivery ? 'border-brand-main bg-brand-emerald/5' : 'border-slate-200 hover:bg-slate-50'
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={options.delivery}
-                    readOnly
-                    className="mt-0.5 rounded text-brand-main focus:ring-brand-main/20 shrink-0 cursor-pointer"
-                  />
-                  <div>
-                    <p className="font-bold text-slate-850">Доставка спецтранспортом</p>
-                    <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed">Возим в изотермических рефрижераторах. Бесплатно при заказе от 350 м²!</p>
-                  </div>
-                </button>
-
-                {/* Maintenance */}
-                <button
-                  type="button"
-                  onClick={() => handleCheckboxChange('maintenance')}
-                  className={`p-3.5 rounded-xl border text-xs text-left cursor-pointer transition-all flex items-start gap-3 ${
-                    options.maintenance ? 'border-brand-main bg-brand-emerald/5' : 'border-slate-200 hover:bg-slate-50'
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={options.maintenance}
-                    readOnly
-                    className="mt-0.5 rounded text-brand-main focus:ring-brand-main/20 shrink-0 cursor-pointer"
-                  />
-                  <div>
-                    <p className="font-bold text-slate-850">Пакет «Первый Уход» (+30 ₽/м²)</p>
-                    <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed">Выезд агронома на первое кошение, внесение стимулятора корней.</p>
-                  </div>
-                </button>
-
+            {/* Standard quality banner block */}
+            <div className="mt-8 bg-slate-50/70 rounded-2xl p-5 border border-slate-100 flex gap-4 items-start">
+              <div className="bg-white p-2.5 rounded-xl border border-slate-100 text-brand-main flex-shrink-0 shadow-sm">
+                <CheckCircle2 className="w-5 h-5 text-brand-main" />
+              </div>
+              <div className="text-left font-sans">
+                <h4 className="text-xs sm:text-sm font-display font-black text-brand-dark uppercase tracking-wider mb-1">
+                  Единый стандарт качества Z-Premium
+                </h4>
+                <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed font-medium">
+                  Мы укладываем исключительно <strong>100% Элитный Мятлик Луговой</strong> (зрелый 3-летний дерн). Мы осознанно отказались от дешевых кормовых смесей с райграсом и сорной травой. Наш газон обладает глубоким изумрудным цветом, идеально переносит морозные зимы и благодаря сверхплотной дернине физически блокирует появление сорняков.
+                </p>
               </div>
             </div>
 
           </div>
 
-          {/* CALCULATION REPORT SUMMARY INVOICE (RIGHT) */}
-          <div className="lg:col-span-5 space-y-6">
+          {/* Right Column: Receipt bill summary */}
+          <div className="lg:col-span-5 bg-brand-dark text-white rounded-3xl p-5 sm:p-8 lg:p-7 xl:p-8 shadow-xl relative overflow-hidden lg:sticky lg:top-24">
             
-            <div className="bg-brand-dark text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xl text-left relative overflow-hidden">
-              {/* Graphic background circle */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-light/10 blur-[40px] rounded-full pointer-events-none" />
+            {/* Subtle graphic background mesh */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+              <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/>
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+              </svg>
+            </div>
 
-              <h3 className="font-display font-black text-lg sm:text-xl border-b border-slate-700/50 pb-4 mb-4 flex items-center gap-2">
-                <Receipt className="w-5 h-5 text-brand-gold" />
-                Смета укладки газона
-              </h3>
+            <div className="relative z-10 text-left">
+              
+              {/* Receipt Header */}
+              <div className="flex items-center gap-3 border-b border-white/[0.08] pb-5 mb-5 bg-transparent">
+                <Receipt className="w-5 h-5 text-brand-gold shrink-0" />
+                <h2 className="text-lg sm:text-xl font-display font-black tracking-tight">
+                  Смета укладки газона
+                </h2>
+              </div>
 
-              {/* Dynamic Bill Listing */}
-              <div className="space-y-3 text-xs sm:text-sm text-slate-350">
-                <div className="flex justify-between">
+              {/* Items Table */}
+              <div className="space-y-4 text-xs sm:text-sm border-b border-white/[0.08] pb-5 mb-5 font-sans">
+                {/* Area size */}
+                <div className="flex justify-between items-center text-slate-300">
                   <span>Общая площадь:</span>
-                  <span className="font-bold text-white">{area} м²</span>
+                  <span className="font-bold text-white text-sm">{area} м²</span>
                 </div>
-                
-                <div className="flex justify-between">
-                  <span>Сортовой газон:</span>
-                  <span className="font-bold text-white">
-                    {result.lawnCost.toLocaleString('ru-RU')} ₽
+
+                {/* Lawn pure price */}
+                <div className="flex justify-between items-center text-slate-300">
+                  <span>Сортовой газон 100% мятлик:</span>
+                  <span className="font-semibold text-white">{lawnCost.toLocaleString('ru-RU')} ₽</span>
+                </div>
+
+                {/* Soil Preparation desc and cost */}
+                <div className="flex justify-between items-start text-slate-300">
+                  <div>
+                    <span>Подготовка и вспашка:</span>
+                    <span className="block text-[10px] text-brand-emerald font-black font-display uppercase tracking-widest mt-0.5">
+                      {ground === 'basic' ? 'Чистая земля (Базовая)' : 'Требуется вспашка и планировка'}
+                    </span>
+                  </div>
+                  <span className="font-semibold text-white mt-0.5">{groundCost.toLocaleString('ru-RU')} ₽</span>
+                </div>
+
+                {/* Installation work */}
+                <div className="flex justify-between items-center text-slate-300">
+                  <span>Выезд, укладка и прикатка:</span>
+                  <span className="font-semibold text-white">{workCost.toLocaleString('ru-RU')} ₽</span>
+                </div>
+
+                {/* Auto irrigation system item */}
+                <div className={`flex justify-between items-center text-slate-300 transition-all ${irrigation === 'no' ? 'opacity-40' : ''}`}>
+                  <span>Автополив под ключ:</span>
+                  <span className="font-semibold text-white">{irrigationCost.toLocaleString('ru-RU')} ₽</span>
+                </div>
+
+                {/* Free design project voucher */}
+                <div className="flex justify-between items-center bg-slate-900/60 p-2.5 rounded-xl border border-white/[0.05]">
+                  <div className="flex items-center gap-2 select-none">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-emerald" />
+                    <span className="text-[10px] text-slate-300 font-bold uppercase tracking-wider">Проект автополива:</span>
+                  </div>
+                  <span className={`text-[10px] font-black uppercase tracking-wider ${irrigation === 'yes' ? 'text-brand-gold animate-pulse' : 'text-slate-500'}`}>
+                    {irrigation === 'yes' ? 'В подарок!' : 'Не требуется'}
                   </span>
                 </div>
 
-                {options.soilPreparation && (
-                  <div className="flex justify-between text-slate-400">
-                    <span>• Подготовка и вспашка:</span>
-                    <span>{result.soilPrepCost.toLocaleString('ru-RU')} ₽</span>
+                {/* Delivery cost */}
+                <div className="flex justify-between items-start text-slate-300">
+                  <div>
+                    <span>Доставка на объект:</span>
+                    <span className="block text-[10px] text-slate-400 mt-0.5">
+                      {delivery.desc}
+                    </span>
                   </div>
-                )}
-
-                {options.removeOldWeeds && (
-                  <div className="flex justify-between text-slate-400">
-                    <span>• Снятие сорняков:</span>
-                    <span>{result.weedRemovalCost.toLocaleString('ru-RU')} ₽</span>
-                  </div>
-                )}
-
-                {options.molesMesh && (
-                  <div className="flex justify-between text-slate-400">
-                    <span>• Сетка против кротов:</span>
-                    <span>{result.molesMeshCost.toLocaleString('ru-RU')} ₽</span>
-                  </div>
-                )}
-
-                {options.autoWatering && (
-                  <div className="flex justify-between text-slate-400">
-                    <span>• Монтаж автополива:</span>
-                    <span>{result.autoWateringCost.toLocaleString('ru-RU')} ₽</span>
-                  </div>
-                )}
-
-                {options.maintenance && (
-                  <div className="flex justify-between text-slate-400">
-                    <span>• Выезд и кошение:</span>
-                    <span>{result.maintenanceCost.toLocaleString('ru-RU')} ₽</span>
-                  </div>
-                )}
-
-                {options.delivery && (
-                  <div className="flex justify-between text-slate-400">
-                    <span>• Доставка до объекта:</span>
-                    {result.deliveryCost === 0 ? (
-                      <span className="text-brand-emerald font-semibold uppercase text-xs">Бесплатно</span>
-                    ) : (
-                      <span>{result.deliveryCost.toLocaleString('ru-RU')} ₽</span>
-                    )}
-                  </div>
-                )}
-
-                {/* Subtotal before discount */}
-                <div className="border-t border-slate-700/50 pt-3.5 mt-2 flex justify-between text-xs text-slate-450">
-                  <span>Стоимость работ и трав:</span>
-                  <span>{result.subtotal.toLocaleString('ru-RU')} ₽</span>
-                </div>
-
-                {/* Real-time Discount value */}
-                <div className="flex justify-between text-brand-gold text-xs leading-none">
-                  <span className="flex items-center gap-1">
-                    Персональная скидка по акции:
+                  <span className="font-semibold text-white mt-0.5">
+                    {delivery.cost.toLocaleString('ru-RU')} ₽
                   </span>
-                  <span className="font-bold">-{result.discount.toLocaleString('ru-RU')} ₽</span>
                 </div>
               </div>
 
-              {/* Total Balance block */}
-              <div className="border-t border-slate-700/80 pt-4 mt-4 flex items-baseline justify-between">
-                <div>
-                  <p className="text-[10px] font-bold text-slate-450 uppercase tracking-widest">ИТОГО ПОД КЛЮЧ:</p>
-                  <p className="text-2xl sm:text-3xl font-display font-black text-brand-gold">
-                    {result.total.toLocaleString('ru-RU')} ₽
+              {/* Subtotals & Discounts */}
+              <div className="space-y-3.5 mb-6 font-sans text-xs sm:text-sm">
+                
+                {discountValue > 0 && (
+                  <>
+                    <div className="flex justify-between text-slate-400">
+                      <span>Стоимость работ и материалов:</span>
+                      <span className="font-semibold line-through text-slate-500">
+                        {subtotal.toLocaleString('ru-RU')} ₽
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center text-brand-gold font-bold">
+                      <div className="flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>Скидка за объём ({Math.round(discountPercent * 100)}%):</span>
+                      </div>
+                      <span>-{discountValue.toLocaleString('ru-RU')} ₽</span>
+                    </div>
+                  </>
+                )}
+
+                {/* Premium total ticket block */}
+                <div className="bg-slate-950/80 p-4.5 rounded-2xl border border-white/[0.05] mt-4 text-left">
+                  <div className="flex justify-between items-end mb-1">
+                    <span className="text-[10px] text-slate-400 uppercase font-black tracking-widest font-display">
+                      Итого под ключ:
+                    </span>
+                    <div className="flex items-center gap-1 text-brand-emerald text-xs font-bold leading-none select-none">
+                      <Timer className="w-3.5 h-3.5" />
+                      <span>{daysText}</span>
+                    </div>
+                  </div>
+                  <div className="text-3xl sm:text-4.5xl font-display font-black text-brand-emerald tracking-tight leading-none mt-1">
+                    {total.toLocaleString('ru-RU')} <span className="text-lg">₽</span>
+                  </div>
+                  <p className="text-[10px] text-slate-500 mt-2.5 leading-relaxed font-medium">
+                    Расчёт является предварительным. Точная смета формируется агрономом при бесплатном замере вашего участка.
                   </p>
                 </div>
 
-                {/* Estimated Completion time */}
-                <div className="text-right text-[11px] font-semibold text-slate-350">
-                  <div className="flex items-center gap-1 justify-end text-brand-emerald font-bold">
-                    <Timer className="w-4 h-4" />
-                    <span>{result.daysToComplete} {result.daysToComplete === 1 ? 'день' : 'дня'}</span>
-                  </div>
-                  <span className="block mt-0.5 text-slate-400">срок укладки</span>
-                </div>
               </div>
 
-              {/* CTA Calculation submit */}
+              {/* Submit calculations and lock-in awards CTA */}
               <button
                 type="button"
-                onClick={handleGetSummary}
-                className="w-full mt-6 bg-brand-gold hover:bg-brand-amber text-brand-dark hover:text-white font-bold text-xs uppercase tracking-wider py-4.5 px-6 rounded-2xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg shadow-brand-gold/10 hover:shadow-brand-amber/30"
+                onClick={handleOpenLeadForm}
+                className="w-full py-4.5 bg-brand-gold hover:bg-brand-gold/90 border-0 active:transform active:scale-[0.98] text-brand-dark font-display font-black text-xs uppercase tracking-wider rounded-2xl transition-all cursor-pointer flex items-center justify-center gap-2.5 shadow-lg shadow-brand-gold/15"
               >
                 <span>Зафиксировать цену и подарки</span>
                 <ChevronRight className="w-4 h-4" />
               </button>
 
-              <p className="text-[10px] text-slate-400 text-center mt-3 leading-normal">
-                Расчёт является предварительным. Точная смета формируется агрономом при бесплатном выезде на участок согласно перепадам высот.
-              </p>
-            </div>
+              {/* Security trust note */}
+              <div className="mt-4 flex items-center justify-center gap-1.5 text-[10px] text-slate-400 font-medium select-none bg-transparent">
+                <CheckCircle2 className="w-3.5 h-3.5 text-brand-emerald" />
+                <span>Ваша выгода и подарки зафиксированы</span>
+              </div>
 
-            {/* THREE FREE GIFTS TAMP BADGE (HIGHER CONVERSIONS) */}
-            <div className="bg-gradient-to-tr from-brand-main to-brand-dark text-white rounded-3xl p-5 border border-brand-emerald/10 text-left">
-              <span className="bg-brand-gold text-brand-dark text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest">Зафиксировано за вами</span>
-              <h4 className="font-display font-extrabold text-base text-white mt-1.5 mb-3">
-                3 гарантированных подарка при выезде сегодня:
-              </h4>
-              
-              <ul className="space-y-2 text-xs text-slate-300 font-medium">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-brand-emerald shrink-0" />
-                  <span>Фирменное органическое удобрение для приживаемости газона (весом 10кг)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-brand-emerald shrink-0" />
-                  <span>Электронная инструкция по поливу и защите от болезней «Зеленый Сад»</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-brand-emerald shrink-0" />
-                  <span>Упаковка профессионального стимулятора старта корней в подарок</span>
-                </li>
-              </ul>
             </div>
 
           </div>
