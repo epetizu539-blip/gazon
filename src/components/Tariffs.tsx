@@ -59,6 +59,7 @@ export const Tariffs: React.FC<TariffsProps> = ({ onOpenModal }) => {
                     alt={lawn.nameRu}
                     className="w-full h-full object-cover select-none pointer-events-none"
                     referrerPolicy="no-referrer"
+                    loading="lazy"
                   />
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4 text-left">
                     <span className="text-[10px] uppercase font-bold text-brand-emerald bg-white px-2 py-0.5 rounded-md">

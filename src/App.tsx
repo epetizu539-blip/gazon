@@ -201,6 +201,7 @@ export default function App() {
                         alt={activeReview.author}
                         className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm shrink-0"
                         referrerPolicy="no-referrer"
+                        loading="lazy"
                       />
                       <div className="text-[10px] leading-tight">
                         <span className="block font-bold text-brand-dark">Заказчик</span>
@@ -349,7 +350,7 @@ export default function App() {
               {/* Right Column Open Capture Card */}
               <div className="lg:col-span-6 bg-white text-slate-950 rounded-3.5xl p-6 sm:p-10 border border-slate-100 shadow-2xl relative text-left">
                 <span className="bg-brand-emerald/10 text-brand-main text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
-                  Скидка 10% действует сегодня
+                  Скидка 5% действует сегодня
                 </span>
                 
                 <h3 className="text-xl sm:text-2xl font-display font-black text-brand-dark leading-tight mt-3">
@@ -367,15 +368,17 @@ export default function App() {
                     e.preventDefault();
                     const nameInput = (e.currentTarget.elements.namedItem('footer-name') as HTMLInputElement).value;
                     const phoneInput = (e.currentTarget.elements.namedItem('footer-phone') as HTMLInputElement).value;
+                    const addressInput = (e.currentTarget.elements.namedItem('footer-address') as HTMLInputElement).value;
                     
                     openModalWithData(
                       'Получить смету со скидкой',
-                      `Заявка принята. Фиксируем персональную скидку 10% на имя ${nameInput}. Наш агроном позвонит на номер ${phoneInput} в течение 10 минут.`,
+                      `Заявка принята. Фиксируем персональную скидку 5% на имя ${nameInput}. Наш агроном позвонит на номер ${phoneInput} в течение 10 минут.`,
                       'Переговорить с агрономом',
                       'bottom_open_form_footer',
                       {
                         name: nameInput,
-                        phone: phoneInput
+                        phone: phoneInput,
+                        address: addressInput
                       }
                     );
                   }}
@@ -407,6 +410,18 @@ export default function App() {
                         className="w-full px-4 py-3 rounded-xl border border-slate-205 focus:border-brand-main focus:ring-brand-main/20 text-slate-900 placeholder-slate-400 font-medium text-xs focus:outline-none focus:ring-4 transition-all"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-extrabold text-slate-600 uppercase tracking-widest mb-1">
+                      Адрес или населенный пункт <span className="text-slate-400 font-normal">(не обязательно):</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="footer-address"
+                      placeholder="Например: Истра, КП Оранж Клаб"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-205 focus:border-brand-main focus:ring-brand-main/20 text-slate-900 placeholder-slate-400 font-medium text-xs focus:outline-none focus:ring-4 transition-all"
+                    />
                   </div>
 
                   <div>

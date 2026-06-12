@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Send, Calculator, PhoneCall } from 'lucide-react';
+import { Send, Calculator, PhoneCall, MessageCircle } from 'lucide-react';
 
 interface StickyMobileCtaProps {
   onOpenModal: (title: string, subtitle: string, buttonText: string, source: string) => void;
@@ -60,22 +60,32 @@ export const StickyMobileCta: React.FC<StickyMobileCtaProps> = ({ onOpenModal })
         <PhoneCall className="w-5 h-5" />
       </a>
 
-      {/* Telegram messenger button - premium slate/gray instead of green chat */}
+      {/* Telegram and WhatsApp messenger buttons */}
       <a
         href="https://t.me/izumrudny_gazon"
         target="_blank"
         rel="noreferrer referrer"
-        className="flex-1 bg-slate-800 text-white text-xs font-bold py-3 px-3 rounded-xl flex items-center justify-center gap-1.5 shadow-sm active:bg-slate-900 transition-all cursor-pointer hover:bg-slate-700"
+        className="flex-1 bg-slate-800 text-white text-[11px] font-extrabold py-3 px-2 rounded-xl flex items-center justify-center gap-1 shadow-sm active:bg-slate-900 transition-all cursor-pointer hover:bg-slate-700"
       >
-        <Send className="w-4 h-4 shrink-0" />
-        <span>Чат Telegram</span>
+        <Send className="w-3.5 h-3.5 shrink-0" />
+        <span className="truncate">Telegram</span>
+      </a>
+
+      <a
+        href="https://wa.me/79998887766"
+        target="_blank"
+        rel="noreferrer"
+        className="flex-1 bg-emerald-600 text-white text-[11px] font-extrabold py-3 px-2 rounded-xl flex items-center justify-center gap-1 shadow-sm active:bg-emerald-700 transition-all cursor-pointer hover:bg-emerald-500"
+      >
+        <MessageCircle className="w-3.5 h-3.5 shrink-0" />
+        <span className="truncate">WhatsApp</span>
       </a>
 
       {/* Calculator callback pop-up (replaces Find out the price text with Icon) */}
       <button
         onClick={() =>
           onOpenModal(
-            'Рассчитать смету со скидкой 10%',
+            'Рассчитать смету со скидкой 5%',
             'Введите контакты ниже. Наш агроном сформирует сравнительную смету по всем сортам травы для вашего замера.',
             'Получить расчет',
             'sticky_mobile_app_bar'

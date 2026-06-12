@@ -29,17 +29,19 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
 }) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
   const [isChecked, setIsChecked] = useState(true);
   const [errorPhone, setErrorPhone] = useState('');
   const [errorName, setErrorName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Quick reset on open
+  // Quick reset and pre-population on open
   useEffect(() => {
     if (isOpen) {
-      setName('');
-      setPhone('');
+      setName(String(additionalData?.name || ''));
+      setPhone(String(additionalData?.phone || ''));
+      setAddress(String(additionalData?.address || ''));
       setErrorPhone('');
       setErrorName('');
       setIsSuccess(false);
@@ -125,6 +127,7 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
         console.log('Lead Submitted successfully to analytics:', {
           name,
           phone,
+          address,
           source,
           additionalData,
           timestamp: new Date().toISOString()
@@ -229,9 +232,25 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
                     </p>
                   ) : (
                     <p className="text-slate-400 text-[10px] mt-1.5 leading-relaxed">
-                      На этот номер в течение 10 секунд мы отправим расчёт сметы и зафиксируем за вами скидку 10%.
+                      На этот номер в течение 15 минут мы отправим расчёт сметы и зафиксируем за вами скидку 5%.
                     </p>
                   )}
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    Населенный пункт, КП или адрес <span className="text-slate-450 text-[10px] sm:text-xs font-normal normal-case text-slate-400 font-sans">(не обязательно)</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Например: Истра, КП Оранж Клаб"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    className="w-full px-4 py-3.5 rounded-xl border border-slate-205 focus:border-brand-main focus:ring-brand-main/20 text-slate-900 placeholder-slate-400 font-medium text-sm focus:outline-none focus:ring-4 transition-all"
+                  />
+                  <p className="text-slate-400 text-[10px] mt-1.5 leading-relaxed">
+                    Позволяет агроному сразу рассчитать точную стоимость логистики доставки рулонов.
+                  </p>
                 </div>
 
                 {/* Additional context display (if calculator was filled) */}
@@ -297,8 +316,13 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
                 Большое спасибо, {name}!
               </h3>
               <p className="text-slate-600 text-sm mt-3 leading-relaxed">
-                Смета успешно зафиксирована. Мы отправили подробный PDF-каталог с ценами в 
-                <strong> WhatsApp</strong> на номер <strong>{phone}</strong>.
+                Смета успешно зафиксирована. Мы отправили подробный PDF-каталог с ценами в{" "}
+                <strong> WhatsApp</strong> на номер <strong>{phone}</strong>
+                {address && (
+                  <>
+                    {" "}и уже рассчитываем точную стоимость доставки до: <strong>{address}</strong>
+                  </>
+                )}.
               </p>
 
               <div className="my-6 bg-brand-dark/5 p-4 rounded-2xl border border-brand-dark/5 text-left text-xs text-slate-705 space-y-2">

@@ -120,8 +120,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
 
       {/* Mobile Menu Backdrop & Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-[60px] z-40 bg-zinc-950/20 backdrop-blur-md">
-          <div className="w-full bg-white border-b border-slate-100 flex flex-col p-6 space-y-4 shadow-xl max-h-[80vh] overflow-y-auto">
+        <>
+          {/* Backdrop below header */}
+          <div 
+            className="lg:hidden fixed inset-0 top-0 left-0 w-full h-full bg-slate-900/30 backdrop-blur-xs z-30"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          {/* Menu Panel exactly under the header */}
+          <div className="lg:hidden absolute top-full left-0 right-0 z-40 bg-white border-b border-slate-150/80 shadow-2xl flex flex-col p-6 space-y-4 max-h-[85vh] overflow-y-auto animate-in slide-in-from-top-3 duration-200">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Навигация по сайту</span>
             <div className="grid grid-cols-2 gap-3">
               {navLinks.map((link) => (
@@ -151,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
                   setMobileMenuOpen(false);
                   onOpenModal(
                     'Расчет сметы за 10 минут',
-                    'Введите контакты, чтобы забронировать выезд замерщика с образцами травы и скидкой 10%.',
+                    'Введите контакты, чтобы забронировать выезд замерщика с образцами травы и скидкой 5%.',
                     'Заказать замер бесплатно',
                     'mobile_drawer_cta'
                   );
@@ -166,7 +172,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
               ООО «ЛАНДШАФТ РФ» • ОГРН 1157746352920 <br />Работаем по всей Москве и Московской области
             </p>
           </div>
-        </div>
+        </>
       )}
     </header>
   );

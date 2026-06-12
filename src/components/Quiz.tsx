@@ -36,6 +36,7 @@ export const Quiz: React.FC<QuizProps> = () => {
   const [answers, setAnswers] = useState<string[]>(['', '', '']);
   const [leadName, setLeadName] = useState('');
   const [leadPhone, setLeadPhone] = useState('');
+  const [leadAddress, setLeadAddress] = useState('');
   const [errorPhone, setErrorPhone] = useState('');
   const [errorName, setErrorName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -140,6 +141,7 @@ export const Quiz: React.FC<QuizProps> = () => {
       console.log('Quiz Completed & Lead Capture Success:', {
         name: leadName,
         phone: leadPhone,
+        address: leadAddress,
         recommendedLawn: recommendedLawn?.nameRu,
         answers: {
           purpose: answers[0],
@@ -165,7 +167,7 @@ export const Quiz: React.FC<QuizProps> = () => {
           </span>
           <h2 className="text-2xl sm:text-3xl font-display font-black text-brand-dark tracking-tight">
             Подобрать идеальный газон и рассчитать <br className="hidden sm:block" />
-            смету со скидкой 10%
+            смету со скидкой 5%
           </h2>
           <p className="text-slate-500 text-xs sm:text-sm mt-2 leading-relaxed">
             Ответьте на 3 простых вопроса о вашем участке. На основе ваших ответов наш авто-алгоритм выберет подходящую смесь трав и сформирует памятку по уходу.
@@ -189,7 +191,7 @@ export const Quiz: React.FC<QuizProps> = () => {
                     Шаг {currentStep + 1} из 3
                   </span>
                   <span className="text-xs font-semibold text-brand-main bg-brand-light/10 px-2.5 py-1 rounded-full">
-                    Гарантия скидки зафиксирована 10%
+                    Гарантия скидки зафиксирована 5%
                   </span>
                 </div>
 
@@ -291,6 +293,7 @@ export const Quiz: React.FC<QuizProps> = () => {
                     alt={recommendedLawn.nameRu}
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   <span className="absolute bottom-2.5 left-3.5 text-white text-[11px] font-bold">Образец газона из нашего питомника</span>
@@ -301,7 +304,7 @@ export const Quiz: React.FC<QuizProps> = () => {
               <div className="md:w-1/2 bg-slate-50 rounded-3xl p-6 sm:p-8 flex flex-col justify-between border border-slate-200/60 shadow-inner">
                 <div>
                   <h4 className="text-base font-display font-black text-brand-dark tracking-tight leading-snug">
-                    Получить итоговый расчет и скидку 10%
+                    Получить итоговый расчет и скидку 5%
                   </h4>
                   <p className="text-[11px] text-slate-500 mt-1 leading-normal">
                     Введите номер телефона и имя. Мы зафиксируем замену цен со скидкой и пришлем готовую детальную смету на укладку в WhatsApp.
@@ -340,6 +343,16 @@ export const Quiz: React.FC<QuizProps> = () => {
                     {errorPhone && <span className="text-rose-500 text-[10px] mt-1 block font-semibold">{errorPhone}</span>}
                   </div>
 
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Населенный пункт, КП или адрес (необязательно)"
+                      value={leadAddress}
+                      onChange={(e) => setLeadAddress(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder-slate-400 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-main/20"
+                    />
+                  </div>
+
                   <button
                     type="submit"
                     disabled={isLoading}
@@ -376,7 +389,7 @@ export const Quiz: React.FC<QuizProps> = () => {
               </h3>
               
               <p className="text-slate-600 font-medium text-xs sm:text-sm max-w-lg mx-auto mt-3 leading-relaxed">
-                Спасибо, <strong>{leadName}</strong>. Сорт газона <strong>«{recommendedLawn.nameRu}»</strong> и скидка 10% успешно прикреплены к вашему номеру <strong>{leadPhone}</strong>.
+                Спасибо, <strong>{leadName}</strong>. Сорт газона <strong>«{recommendedLawn.nameRu}»</strong> и скидка 5% успешно прикреплены к вашему номеру <strong>{leadPhone}</strong>{leadAddress && <> для доставки в <strong>{leadAddress}</strong></>}.
               </p>
 
               <div className="my-6 max-w-sm mx-auto bg-slate-50 border border-slate-100 p-4 rounded-2xl flex items-center gap-3">
