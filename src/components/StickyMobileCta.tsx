@@ -75,10 +75,10 @@ export const StickyMobileCta: React.FC<StickyMobileCtaProps> = ({ onOpenModal })
         href="https://wa.me/79998887766"
         target="_blank"
         rel="noreferrer"
-        className="flex-1 bg-emerald-600 text-white text-[11px] font-extrabold py-3 px-2 rounded-xl flex items-center justify-center gap-1 shadow-sm active:bg-emerald-700 transition-all cursor-pointer hover:bg-emerald-500"
+        className="flex-1 bg-gradient-to-r from-[#25a3fc] via-[#524bf2] to-[#b83bf2] text-white text-[11px] font-extrabold py-3 px-2 rounded-xl flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all cursor-pointer hover:brightness-110"
       >
         <MessageCircle className="w-3.5 h-3.5 shrink-0" />
-        <span className="truncate">WhatsApp</span>
+        <span className="truncate">MAX</span>
       </a>
 
       {/* Calculator callback pop-up (replaces Find out the price text with Icon) */}

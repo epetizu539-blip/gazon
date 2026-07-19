@@ -6,9 +6,13 @@
 import { LawnType, QuizQuestion, Review } from './types';
 
 // @ts-ignore
-import regeneratedImageBefore from './assets/images/regenerated_image_1781033329798.jpg';
+import case1Before from './assets/images/regenerated_image_1784481828760.jpg';
 // @ts-ignore
-import regeneratedImageAfter from './assets/images/regenerated_image_1781035109515.png';
+import case1After from './assets/images/regenerated_image_1784486181579.png';
+// @ts-ignore
+import lawnBefore from './assets/images/lawn_before.jpg';
+// @ts-ignore
+import lawnAfter from './assets/images/regenerated_image_1784484296832.png';
 
 
 export const LAWN_TYPES: LawnType[] = [
@@ -132,34 +136,21 @@ export const CASE_REVIEWS: Review[] = [
     lawnTypeRu: 'Парковый Премиум',
     text: 'Обратился в компанию в середине мая. Буквально за пару дней согласовали смету, замерщик приехал бесплатно в день звонка со всеми образцами травы. Сама укладка заняла всего один день! Ребята вывезли старые корни, завезли 5 тонн свежего грунта, выровняли все по лазеру и раскатали изумрудное чудо. Прошло 2 месяца — газон чувствует себя великолепно, растет плотный, сорняков ноль. Отдельное спасибо за подробную инструкцию по автополиву!',
     rating: 5,
-    beforeImage: 'https://images.unsplash.com/photo-1557429287-b2e26467fc2b?auto=format&fit=crop&w=800&q=80',
-    afterImage: 'https://images.unsplash.com/photo-1584467541268-b040f83be3fd?auto=format&fit=crop&w=800&q=80',
+    beforeImage: case1Before,
+    afterImage: case1After,
     date: '12.05.2026',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'
   },
   {
     id: 2,
-    author: 'Екатерина и Сергей Колосовы',
-    location: 'Деревня Соколово, Пятницкое шоссе',
-    area: 580,
-    lawnTypeRu: 'Спортивный / Элитный',
-    text: 'Основная боль была — три активных золотистых ретривера, которые за год превратили наш старый сеяный газон в грязное болото. Специалисты порекомендовали Спортивный сорт с армирующей сеткой от вытаптывания и укладку сетки от кротов. Рабочие приехали вовремя со всей спецтехникой. Уложили все за 1.5 дня. Вот уже третий месяц собаки носятся по газону каждый день, а он как новенький — густой, упругий, без малейших проплешин! Очень профессиональный подход.',
-    rating: 5,
-    beforeImage: 'https://images.unsplash.com/photo-1582298538104-e22e50529d33?auto=format&fit=crop&w=800&q=80', // weedy wilderness ground
-    afterImage: 'https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?auto=format&fit=crop&w=800&q=80', // residential lawn layout
-    date: '28.04.2026',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'
-  },
-  {
-    id: 3,
     author: 'Владимир К.',
     location: 'КП «Павлово», Новорижское шоссе',
     area: 450,
     lawnTypeRu: 'Спортивный / Элитный',
     text: 'Нам требовалось подготовить участок с нуля после завершения строительства. Рабочие завезли плодородный грунт, выровняли по уровню культиватором и уложили элитный рулонный газон буквально за день. Стыков вообще не видно, трава сочная, густая, сорняков нет. Прекрасно гармонирует с нашими соснами и елями!',
     rating: 5,
-    beforeImage: regeneratedImageBefore,
-    afterImage: regeneratedImageAfter,
+    beforeImage: lawnBefore,
+    afterImage: lawnAfter,
     date: '08.06.2026',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80'
   }

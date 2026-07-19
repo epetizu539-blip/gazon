@@ -11,7 +11,6 @@ import { BeforeAfter } from './components/BeforeAfter';
 import { Calculator } from './components/Calculator';
 import { Quiz } from './components/Quiz';
 import { ProductFeatures } from './components/ProductFeatures';
-import { Tariffs } from './components/Tariffs';
 import { Workflow } from './components/Workflow';
 import { FAQ } from './components/FAQ';
 import { StickyMobileCta } from './components/StickyMobileCta';
@@ -117,19 +116,49 @@ export default function App() {
             </div>
 
             {/* TAB SELECTORS TO SWITCH Portfolio cases */}
-            <div className="flex flex-col sm:flex-row justify-center gap-3 mb-10 max-w-xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10 max-w-3xl mx-auto">
               {CASE_REVIEWS.map((review, index) => (
                 <button
                   key={review.id}
                   onClick={() => setActiveReviewIdx(index)}
-                  className={`px-4 py-3 rounded-2xl text-xs font-bold transition-all border cursor-pointer ${
+                  className={`p-4 rounded-2xl text-left transition-all border cursor-pointer flex items-center gap-4 group relative overflow-hidden ${
                     activeReviewIdx === index
-                      ? 'bg-brand-main text-white border-brand-main shadow-md shadow-brand-main/15'
-                      : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
+                      ? 'bg-white border-brand-emerald ring-2 ring-brand-emerald/15 shadow-lg shadow-brand-emerald/5 translate-y-[-2px]'
+                      : 'bg-slate-50/60 hover:bg-white border-slate-200 hover:shadow-md hover:translate-y-[-1px]'
                   }`}
                 >
-                  <span className="block text-[9px] uppercase opacity-75 font-black mb-0.5">Кейс #{index + 1}</span>
-                  <span>{review.location.split(',')[0]}</span>
+                  {/* Thumbnail */}
+                  <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                    <img 
+                      src={review.afterImage} 
+                      alt={review.location}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                      referrerPolicy="no-referrer"
+                    />
+                    <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md text-[8px] font-black bg-brand-emerald text-white font-mono shadow-sm">
+                      {review.area} м²
+                    </span>
+                  </div>
+
+                  {/* Info */}
+                  <div className="min-w-0 flex-1">
+                    <span className={`block text-[9px] font-black uppercase tracking-wider mb-0.5 ${
+                      activeReviewIdx === index ? 'text-brand-emerald' : 'text-slate-400'
+                    }`}>
+                      Кейс #{index + 1}
+                    </span>
+                    <span className="block text-xs font-bold text-slate-800 truncate group-hover:text-brand-emerald transition-colors">
+                      {review.location.split(',')[0]}
+                    </span>
+                    <span className="block text-[10px] text-slate-500 truncate mt-0.5 font-medium">
+                      {review.lawnTypeRu}
+                    </span>
+                  </div>
+
+                  {/* Micro indicator line at the bottom */}
+                  <div className={`absolute bottom-0 left-0 right-0 h-1 transition-all duration-300 ${
+                    activeReviewIdx === index ? 'bg-brand-emerald' : 'bg-transparent'
+                  }`} />
                 </button>
               ))}
             </div>
@@ -227,9 +256,6 @@ export default function App() {
         {/* INTERACTIVE FUNNEL TEST QUEST */}
         <Quiz onOpenModal={openModal} />
 
-        {/* ROLLING LAWN SORTS DIRECT CATALOG LIST */}
-        <Tariffs onOpenModal={openModal} />
-
         {/* WORKFLOW ROADMAP */}
         <Workflow />
 
@@ -301,7 +327,7 @@ export default function App() {
                       <MessageSquare className="w-4 h-4 text-brand-emerald" />
                     </div>
                     <div>
-                      <span className="block text-[10px] uppercase font-bold text-slate-400">Наш Чат WhatsApp:</span>
+                      <span className="block text-[10px] uppercase font-bold text-slate-400">Наш Чат MAX:</span>
                       <a href="https://wa.me/79998887766" target="_blank" rel="noreferrer" className="font-extrabold text-[#f3f4f6] hover:text-[#10b981] transition-colors leading-relaxed">+7 (999) 888-77-66</a>
                     </div>
                   </div>

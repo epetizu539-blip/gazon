@@ -144,10 +144,10 @@ export const Calculator: React.FC<CalculatorProps> = ({ onOpenModalWithData }) =
             Интерактивный расчет стоимости
           </span>
           <h2 className="text-2.5xl sm:text-3.5xl md:text-4xl lg:text-5.5xl font-display font-black text-brand-dark tracking-tight">
-            Калькулятор укладки газона «под ключ»
+            Самый честный калькулятор укладки газона
           </h2>
           <p className="text-slate-500 text-sm sm:text-base mt-3 max-w-2xl mx-auto">
-            Ответьте на 3 простых вопроса, чтобы мгновенно получить детализированную смету и зафиксировать сезонные подарки.
+            Честный расчёт без скрытых наценок по сравнению с конкурентами. Ответьте на 3 простых вопроса, чтобы мгновенно получить прозрачную смету и зафиксировать сезонные подарки.
           </p>
         </div>
 

@@ -317,7 +317,7 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
               </h3>
               <p className="text-slate-600 text-sm mt-3 leading-relaxed">
                 Смета успешно зафиксирована. Мы отправили подробный PDF-каталог с ценами в{" "}
-                <strong> WhatsApp</strong> на номер <strong>{phone}</strong>
+                <strong>MAX</strong> на номер <strong>{phone}</strong>
                 {address && (
                   <>
                     {" "}и уже рассчитываем точную стоимость доставки до: <strong>{address}</strong>
@@ -343,10 +343,10 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
                   href={`https://wa.me/79998887766?text=Привет!%20Я%20оставил%20заявку%20на%20сайте%20на%20имя%20${encodeURIComponent(name)}.`}
                   target="_blank"
                   rel="noreferrer referrer"
-                  className="flex-1 bg-[#25D366] text-white font-bold text-xs py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:bg-[#20ba59] transition-all cursor-pointer shadow-md"
+                  className="flex-1 bg-gradient-to-r from-[#25a3fc] via-[#524bf2] to-[#b83bf2] text-white font-bold text-xs py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 active:scale-95 transition-all cursor-pointer shadow-md"
                 >
                   <MessageSquare className="w-4 h-4 fill-white" />
-                  <span>Написать в WhatsApp</span>
+                  <span>Написать в MAX</span>
                 </a>
                 <button
                   onClick={onClose}

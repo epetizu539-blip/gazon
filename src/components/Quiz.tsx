@@ -307,7 +307,7 @@ export const Quiz: React.FC<QuizProps> = () => {
                     Получить итоговый расчет и скидку 5%
                   </h4>
                   <p className="text-[11px] text-slate-500 mt-1 leading-normal">
-                    Введите номер телефона и имя. Мы зафиксируем замену цен со скидкой и пришлем готовую детальную смету на укладку в WhatsApp.
+                    Введите номер телефона и имя. Мы зафиксируем замену цен со скидкой и пришлем готовую детальную смету на укладку в MAX.
                   </p>
                 </div>
 
@@ -362,7 +362,7 @@ export const Quiz: React.FC<QuizProps> = () => {
                       'Идет расчет...'
                     ) : (
                       <>
-                        <span>Получить смету в WhatsApp</span>
+                        <span>Получить смету в MAX</span>
                         <ArrowRight className="w-4 h-4" />
                       </>
                     )}
@@ -398,7 +398,7 @@ export const Quiz: React.FC<QuizProps> = () => {
                 </div>
                 <div className="text-left font-medium">
                   <p className="text-xs text-brand-dark font-bold">СМЕТА В ПУТИ</p>
-                  <p className="text-[10px] text-slate-500 mt-0.5">В течение 10 минут агроном проверит отчет и позвонит вам или пришлет расчет в WhatsApp.</p>
+                  <p className="text-[10px] text-slate-500 mt-0.5">В течение 10 минут агроном проверит отчет и позвонит вам или пришлет расчет в MAX.</p>
                 </div>
               </div>
 
@@ -407,10 +407,10 @@ export const Quiz: React.FC<QuizProps> = () => {
                   href={`https://wa.me/79998887766?text=Я%20получил%2520результат%2520квиза%2520-${encodeURIComponent(recommendedLawn.nameRu)}.`}
                   target="_blank"
                   rel="noreferrer referrer"
-                  className="flex-1 bg-[#25D366] text-white font-bold text-xs py-3 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
+                  className="flex-1 bg-gradient-to-r from-[#25a3fc] via-[#524bf2] to-[#b83bf2] text-white font-bold text-xs py-3 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:brightness-110 active:scale-95 transition-all"
                 >
                   <MessageSquare className="w-4 h-4 fill-white" />
-                  <span>Чат в WhatsApp</span>
+                  <span>Чат в MAX</span>
                 </a>
                 <button
                   type="button"

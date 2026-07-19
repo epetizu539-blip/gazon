@@ -29,7 +29,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
 
   const navLinks = [
     { name: 'Калькулятор', href: '#calculator' },
-    { name: 'Сорта и Цены', href: '#tariffs' },
     { name: 'До / После', href: '#results' },
     { name: 'Преимущества', href: '#features' },
     { name: 'Схема работы', href: '#workflow' },
