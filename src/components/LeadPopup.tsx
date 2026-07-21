@@ -353,7 +353,7 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
               {/* Instant Messengers links for better conversions */}
               <div className="flex flex-col sm:flex-row gap-3 mt-6">
                 <a
-                  href={`https://wa.me/79998887766?text=Привет!%20Я%20оставил%20заявку%20на%20сайте%20на%20имя%20${encodeURIComponent(name)}.`}
+                  href={`https://wa.me/79852394989?text=Привет!%20Я%20оставил%20заявку%20на%20сайте%20на%20имя%20${encodeURIComponent(name)}.`}
                   target="_blank"
                   rel="noreferrer referrer"
                   className="flex-1 bg-gradient-to-r from-[#25a3fc] via-[#524bf2] to-[#b83bf2] text-white font-bold text-xs py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 active:scale-95 transition-all cursor-pointer shadow-md"

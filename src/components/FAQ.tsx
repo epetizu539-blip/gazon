@@ -98,7 +98,7 @@ export const FAQ: React.FC = () => {
           </div>
 
           <a
-            href="tel:+74951503883"
+            href="tel:+79852394989"
             className="w-full sm:w-auto bg-brand-dark hover:bg-black text-white font-black text-xs uppercase tracking-wide px-5 py-3.5 rounded-xl text-center shadow-md cursor-pointer transition-colors shrink-0"
           >
             Позвонить агроному

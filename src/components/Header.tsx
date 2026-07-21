@@ -69,11 +69,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
           <div className="hidden sm:flex items-center gap-4">
             <div className="text-right">
               <a
-                href="tel:+74951503883"
+                href="tel:+79852394989"
                 className="flex items-center gap-1.5 font-display font-black text-xs sm:text-sm md:text-base text-brand-dark hover:text-brand-emerald transition-colors"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-brand-emerald animate-pulse shrink-0" />
-                <span>+7 (495) 150-38-83</span>
+                <span>+7 (985) 239-49-89</span>
               </a>
               <span className="block text-[9px] sm:text-[10px] text-slate-500 font-medium leading-none mt-1">
                 Звонок бесплатный • Круглосуточно
@@ -99,7 +99,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
           {/* Mobile Menu Trigger Button */}
           <div className="flex items-center gap-2 lg:hidden">
             <a
-              href="tel:+74951503883"
+              href="tel:+79852394989"
               className="p-2 rounded-xl bg-slate-50 text-brand-dark hover:text-brand-emerald transition-colors"
               aria-label="Позвонить нам"
             >
@@ -144,11 +144,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
 
             <div className="border-t border-slate-100 pt-4 flex flex-col gap-3">
               <a
-                href="tel:+74951503883"
+                href="tel:+79852394989"
                 className="bg-brand-emerald/10 hover:bg-brand-emerald/20 text-brand-main font-display font-black text-sm p-4 rounded-2xl flex items-center justify-center gap-2"
               >
                 <Phone className="w-4 h-4 text-brand-emerald animate-bounce" />
-                <span>+7 (495) 150-38-83</span>
+                <span>+7 (985) 239-49-89</span>
               </a>
 
               <button

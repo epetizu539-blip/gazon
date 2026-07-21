@@ -75,13 +75,9 @@ export const Calculator: React.FC<CalculatorProps> = ({ onOpenModalWithData }) =
 
   const delivery = getDeliveryDetails(area);
 
-  // Discount calculation: only on lawn and work
+  // Discount calculation: 5% discount
   let discountPercent = 0;
-  if (area >= 500) {
-    discountPercent = 0.15;
-  } else if (area >= 300) {
-    discountPercent = 0.10;
-  } else if (area >= 150) {
+  if (area >= 100) {
     discountPercent = 0.05;
   }
 

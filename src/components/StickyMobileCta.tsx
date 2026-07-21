@@ -53,7 +53,7 @@ export const StickyMobileCta: React.FC<StickyMobileCtaProps> = ({ onOpenModal })
     >
       {/* Phone Call Hotkey */}
       <a
-        href="tel:+74951503883"
+        href="tel:+79852394989"
         className="w-11 h-11 bg-white hover:bg-slate-200 text-brand-dark flex items-center justify-center rounded-xl shrink-0 border border-slate-200 shadow-sm transition-colors"
         aria-label="Позвонить на горячую линию"
       >
@@ -72,7 +72,7 @@ export const StickyMobileCta: React.FC<StickyMobileCtaProps> = ({ onOpenModal })
       </a>
 
       <a
-        href="https://wa.me/79998887766"
+        href="https://wa.me/79852394989"
         target="_blank"
         rel="noreferrer"
         className="flex-1 bg-gradient-to-r from-[#25a3fc] via-[#524bf2] to-[#b83bf2] text-white text-[11px] font-extrabold py-3 px-2 rounded-xl flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all cursor-pointer hover:brightness-110"

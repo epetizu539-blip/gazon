@@ -4,45 +4,27 @@
  */
 
 import React from 'react';
-import { Leaf, Award, Compass, Timer, Settings2, Hammer, ShieldAlert, Sparkles } from 'lucide-react';
+import { Leaf, Award, Timer, Sparkles } from 'lucide-react';
 
 export const ProductFeatures: React.FC = () => {
   const list = [
     {
-      title: 'Срез травы за 3 часа до погрузки',
-      description: 'Трава — это живой организм. Если возить её в сложенном состоянии дольше суток, она перегревается и преет. Мы косим дернину на рассвете в 05:00 и привозим её к вам на участок уже к 09:00 утра.',
+      title: 'Максимальная свежесть: Срез травы за 3 часа до доставки',
+      description: 'Трава — это живой организм. Мы косим дернину на рассвете в 05:00 и привозим её на ваш участок к 09:00 утра, полностью исключая перегрев и прение рулонов.',
       icon: Timer,
-      badge: 'Свежесть А+'
+      badge: 'Свежесть 100%'
     },
     {
-      title: 'Лазерное выравнивание по ГОСТ',
-      description: 'Газон укладывается только на идеально ровную почву. Мы пропахиваем территорию культиваторами фрезерного типа и проводим высотную планировку с использованием лазерных нивелиров.',
-      icon: Settings2,
-      badge: 'Немецкие катки'
-    },
-    {
-      title: 'Сертификат качества Минсельхоза РФ',
-      description: 'Вся наша продукция проходит фитосанитарный контроль. Гарантируем полное отсутствие сорняков, садовых вредителей, личинок хруща и возбудителей грибковых заболеваний во всех рулонах.',
+      title: 'Экологическая безопасность и фитоконтроль',
+      description: 'Продукция проходит фитосанитарный контроль Минсельхоза РФ. Гарантируем отсутствие сорняков, садовых вредителей, личинок и аллергенов.',
       icon: Award,
-      badge: '100% безопасный'
+      badge: 'Безопасность'
     },
     {
-      title: 'Сверхпрочная структура дерна',
-      description: 'Толщина дернины строго 2.2 — 2.4 см. Мощно переплетенная корневая система мятлика настолько прочная, что рулон шириной 40 см можно поднять вертикально за один край, и он не разорвется.',
+      title: 'Элитная селекция сортов мятлика',
+      description: 'Используем премиальные семена мятлика лугового американской и канадской селекции. Густой изумрудный покров с мощной корневой системой.',
       icon: Leaf,
-      badge: 'Двойная селекция'
-    },
-    {
-      title: 'Команда сертифицированных агрономов',
-      description: 'На каждом объекте укладку контролирует профессиональный инженер-агроном с профильным образованием МСХА им. Тимирязева. Он берет пробы почвы и настраивает нормы автополива индивидуально.',
-      icon: Compass,
-      badge: 'Экспертный подход'
-    },
-    {
-      title: 'Строгие юридические гарантии',
-      description: 'Цена в смете окончательная и фиксируется до начала работ. Никаких доплат за непредвиденный грунт. За просрочку сдачи укладки газона платим штраф 5000 рублей за каждый час опоздания.',
-      icon: ShieldAlert,
-      badge: 'Все официально'
+      badge: 'Селекция'
     }
   ];
 
@@ -53,25 +35,25 @@ export const ProductFeatures: React.FC = () => {
         {/* Title */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-brand-emerald bg-brand-emerald/10 mb-3 uppercase tracking-wider">
-            Почему мы лучшие на рынке
+            Ключевые преимущества
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-3.5xl font-display font-black text-brand-dark tracking-tight leading-snug">
-            Премиальные стандарты укладки <br />
-            рулонного газона для безупречного результата
+            Почему выбирают наш <br />
+            рулонный газон
           </h2>
           <p className="text-slate-500 text-xs sm:text-sm mt-2 max-w-xl mx-auto leading-relaxed">
-            Мы не просто привозим рулоны травы. Мы создаем идеальную экосистему на вашем участке, которая будет радовать вас изумрудной свежестью долгие годы.
+            Мы гарантируем высочайшие стандарты качества газона на всех этапах: от выращивания до доставки на ваш участок.
           </p>
         </div>
 
         {/* Features grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {list.map((item, idx) => {
             const Icon = item.icon;
             return (
               <div
                 key={idx}
-                className="bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-100 hover:border-brand-emerald/20 hover:bg-white hover:shadow-2xl transition-all duration-300 group text-left flex flex-col justify-between min-h-[290px]"
+                className="bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-100 hover:border-brand-emerald/20 hover:bg-white hover:shadow-2xl transition-all duration-300 group text-left flex flex-col justify-between min-h-[280px]"
               >
                 <div>
                   {/* Icon Header */}
@@ -79,7 +61,7 @@ export const ProductFeatures: React.FC = () => {
                     <div className="w-12 h-12 rounded-2xl bg-brand-main/10 text-brand-main group-hover:bg-brand-emerald group-hover:text-white flex items-center justify-center font-bold transition-all">
                       <Icon className="w-6 h-6 shrink-0" />
                     </div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400 bg-slate-100 border border-slate-200/50 px-2.5 py-1 rounded-md">
+                    <span className="text-[10px] uppercase font-bold text-brand-emerald bg-brand-emerald/10 border border-brand-emerald/20 px-2.5 py-1 rounded-md">
                       {item.badge}
                     </span>
                   </div>
@@ -93,10 +75,10 @@ export const ProductFeatures: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="border-t border-slate-250 border-dashed pt-4 mt-5">
+                <div className="border-t border-slate-200 border-dashed pt-4 mt-5">
                   <div className="flex items-center gap-1.5 text-[10px] font-bold text-brand-main">
                     <Sparkles className="w-3.5 h-3.5" />
-                    <span>По стандарту ассоциации агрономов России</span>
+                    <span>Гарантия качества производителя</span>
                   </div>
                 </div>
               </div>

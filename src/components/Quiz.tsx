@@ -422,7 +422,7 @@ export const Quiz: React.FC<QuizProps> = () => {
 
               <div className="flex justify-center gap-3 max-w-md mx-auto">
                 <a
-                  href={`https://wa.me/79998887766?text=Я%20получил%2520результат%2520квиза%2520-${encodeURIComponent(recommendedLawn.nameRu)}.`}
+                  href={`https://wa.me/79852394989?text=Я%20получил%2520результат%2520квиза%2520-${encodeURIComponent(recommendedLawn.nameRu)}.`}
                   target="_blank"
                   rel="noreferrer referrer"
                   className="flex-1 bg-gradient-to-r from-[#25a3fc] via-[#524bf2] to-[#b83bf2] text-white font-bold text-xs py-3 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:brightness-110 active:scale-95 transition-all"

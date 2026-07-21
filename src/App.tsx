@@ -9,6 +9,7 @@ import { Logo } from './components/Logo';
 import { Hero } from './components/Hero';
 import { BeforeAfter } from './components/BeforeAfter';
 import { Calculator } from './components/Calculator';
+import GenerativeArtGallery from './components/ui/generative-art-gallery';
 import { Quiz } from './components/Quiz';
 import { ProductFeatures } from './components/ProductFeatures';
 import { Workflow } from './components/Workflow';
@@ -17,7 +18,7 @@ import { StickyMobileCta } from './components/StickyMobileCta';
 import { LeadPopup } from './components/LeadPopup';
 
 import { CASE_REVIEWS } from './data';
-import { Star, ShieldAlert, CheckCircle2, ChevronRight, Phone, MessageSquare, Mail, MapPin, Building, FileText, Sparkles, UserCheck } from 'lucide-react';
+import { Star, ShieldAlert, CheckCircle2, ChevronRight, Phone, MessageSquare, MapPin, Building, FileText, Sparkles, UserCheck } from 'lucide-react';
 
 export default function App() {
   // Modal configurations
@@ -250,6 +251,9 @@ export default function App() {
         {/* CUSTOM INVOICE CALCULATOR */}
         <Calculator onOpenModalWithData={openModalWithData} />
 
+        {/* ADDITIONAL SERVICES GENERATIVE ART GALLERY */}
+        <GenerativeArtGallery onOpenModal={openModal} />
+
         {/* GORGEOUS BENEFIT GIRD */}
         <ProductFeatures />
 
@@ -318,7 +322,7 @@ export default function App() {
                     </div>
                     <div>
                       <span className="block text-[10px] uppercase font-bold text-slate-400">Горячая линия:</span>
-                      <a href="tel:+74951503883" className="font-extrabold text-[#f3f4f6] hover:text-[#10b981] transition-colors leading-relaxed">+7 (495) 150-38-83</a>
+                      <a href="tel:+79852394989" className="font-extrabold text-[#f3f4f6] hover:text-[#10b981] transition-colors leading-relaxed">+7 (985) 239-49-89</a>
                     </div>
                   </div>
 
@@ -328,17 +332,7 @@ export default function App() {
                     </div>
                     <div>
                       <span className="block text-[10px] uppercase font-bold text-slate-400">Наш Чат MAX:</span>
-                      <a href="https://wa.me/79998887766" target="_blank" rel="noreferrer" className="font-extrabold text-[#f3f4f6] hover:text-[#10b981] transition-colors leading-relaxed">+7 (999) 888-77-66</a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-slate-800/80 text-brand-emerald flex items-center justify-center shrink-0">
-                      <Mail className="w-4 h-4 text-brand-emerald" />
-                    </div>
-                    <div>
-                      <span className="block text-[10px] uppercase font-bold text-slate-400">Электронная почта:</span>
-                      <a href="mailto:info@eron-lawn.ru" className="font-extrabold text-[#f3f4f6] hover:text-[#10b981] transition-colors leading-relaxed">info@izumrud-gazon.ru</a>
+                      <a href="https://wa.me/79852394989" target="_blank" rel="noreferrer" className="font-extrabold text-[#f3f4f6] hover:text-[#10b981] transition-colors leading-relaxed">+7 (985) 239-49-89</a>
                     </div>
                   </div>
 
@@ -347,28 +341,50 @@ export default function App() {
                       <MapPin className="w-4 h-4 text-brand-emerald" />
                     </div>
                     <div>
-                      <span className="block text-[10px] uppercase font-bold text-slate-400">Шоурум и Офис:</span>
-                      <span className="text-[#f3f4f6] font-extrabold leading-normal block">г. Москва, ул. Космонавта Волкова, д. 20, бизнес-центр «Волков»</span>
+                      <span className="block text-[10px] uppercase font-bold text-slate-400">Шоурум и Центральный Офис:</span>
+                      <span className="text-[#f3f4f6] font-extrabold leading-normal block">
+                        Молодёжная улица, 48, село Павловская Слобода, Истринский район, Московская область, 143581
+                      </span>
+                      <span className="text-brand-gold text-xs font-bold block mt-0.5">
+                        3 этаж, 2 кабинет
+                      </span>
                     </div>
                   </div>
 
                 </div>
 
-                {/* Embedded static address / map marker layout */}
-                <div className="rounded-2xl overflow-hidden border border-slate-800 h-[220px] bg-slate-900 shadow-xl relative">
-                  {/* Real map frame pointing to generic Moscow region coordinates for realism */}
+                {/* Embedded Yandex Map with exact marker coordinates */}
+                <div className="rounded-2xl overflow-hidden border border-slate-800 h-[300px] bg-slate-900 shadow-2xl relative group">
                   <iframe
-                    src="https://yandex.ru/map-widget/v1/?ll=37.535805%2C55.816664&mode=search&oid=165842188147&ol=biz&z=15"
-                    className="w-full h-full border-none grayscale invert contrast-125 opacity-80"
-                    title="Карта проезда к Изумрудный Газон"
+                    src="https://yandex.ru/map-widget/v1/?ll=37.073121%2C55.815428&z=17&pt=37.073121%2C55.815428%2Cpm2grm~37.073121%2C55.815428%2Cpm2rdm"
+                    className="w-full h-full border-none opacity-95 contrast-105"
+                    title="Карта проезда: с. Павловская Слобода, ул. Молодёжная, д. 48"
                     allowFullScreen
                     loading="lazy"
                   />
                   
-                  <div className="absolute top-4 left-4 bg-brand-dark/90 backdrop-blur-md text-white text-[10px] font-bold py-2 px-3.5 rounded-lg flex items-center gap-1.5 border border-slate-700">
-                    <Building className="w-3.5 h-3.5 text-brand-emerald" />
-                    <span>Административный офис продаж розницы</span>
+                  {/* Top info badge */}
+                  <div className="absolute top-3 left-3 right-3 sm:right-auto bg-slate-950/95 backdrop-blur-md text-white text-[11px] font-bold py-2.5 px-3.5 rounded-xl flex items-center gap-2 border border-slate-700/80 shadow-xl">
+                    <div className="relative flex h-3 w-3 shrink-0">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-emerald opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-brand-emerald"></span>
+                    </div>
+                    <div>
+                      <span className="text-white font-extrabold block">Офис отмечен точкой (55.815428, 37.073121)</span>
+                      <span className="text-slate-300 font-normal text-[10px]">ул. Молодёжная 48, 3 этаж, каб. 2</span>
+                    </div>
                   </div>
+
+                  {/* Navigator Action button */}
+                  <a
+                    href="https://yandex.ru/maps/?whatshere%5Bpoint%5D=37.073121%2C55.815428&whatshere%5Bzoom%5D=17"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute bottom-3 right-3 bg-brand-emerald hover:bg-brand-main text-white text-[11px] font-extrabold py-2 px-3.5 rounded-xl flex items-center gap-1.5 shadow-xl transition-all hover:scale-105 border border-brand-light/20"
+                  >
+                    <MapPin className="w-3.5 h-3.5 text-white" />
+                    <span>Построить маршрут</span>
+                  </a>
                 </div>
 
               </div>
