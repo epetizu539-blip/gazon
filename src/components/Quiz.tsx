@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { QUIZ_QUESTIONS, LAWN_TYPES } from '../data';
 import { LawnType } from '../types';
-import { CheckCircle, Activity, Sparkles, Trees, CloudRain, CheckCircle2, AlertTriangle, Layers, RefreshCw, Droplets, Grid, Compass, XCircle, ChevronLeft, ArrowRight, Phone, MessageSquare, ClipboardCheck, Award } from 'lucide-react';
+import { CheckCircle, Activity, Sparkles, Trees, CloudRain, CheckCircle2, AlertTriangle, Layers, RefreshCw, Droplets, Grid, Compass, XCircle, ChevronLeft, ArrowRight, Phone, MessageSquare, ClipboardCheck, Award, Send } from 'lucide-react';
 
 interface QuizProps {
   onOpenModal: (title: string, subtitle: string, buttonText: string, source: string) => void;
@@ -416,19 +416,19 @@ export const Quiz: React.FC<QuizProps> = () => {
                 </div>
                 <div className="text-left font-medium">
                   <p className="text-xs text-brand-dark font-bold">СМЕТА В ПУТИ</p>
-                  <p className="text-[10px] text-slate-500 mt-0.5">В течение 10 минут агроном проверит отчет и позвонит вам или пришлет расчет в MAX.</p>
+                  <p className="text-[10px] text-slate-500 mt-0.5">В течение 10 минут агроном проверит отчет и позвонит вам или пришлет расчет в Telegram.</p>
                 </div>
               </div>
 
               <div className="flex justify-center gap-3 max-w-md mx-auto">
                 <a
-                  href={`https://wa.me/79852394989?text=Я%20получил%2520результат%2520квиза%2520-${encodeURIComponent(recommendedLawn.nameRu)}.`}
+                  href={`https://t.me/+79852394989?text=Я%20получил%20результат%20квиза%20-${encodeURIComponent(recommendedLawn.nameRu)}.`}
                   target="_blank"
                   rel="noreferrer referrer"
-                  className="flex-1 bg-gradient-to-r from-[#25a3fc] via-[#524bf2] to-[#b83bf2] text-white font-bold text-xs py-3 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:brightness-110 active:scale-95 transition-all"
+                  className="flex-1 bg-gradient-to-r from-[#229ED9] to-[#0088cc] text-white font-bold text-xs py-3 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:brightness-110 active:scale-95 transition-all"
                 >
-                  <MessageSquare className="w-4 h-4 fill-white" />
-                  <span>Чат в MAX</span>
+                  <Send className="w-4 h-4 text-white" />
+                  <span>Чат в Telegram</span>
                 </a>
                 <button
                   type="button"

@@ -60,25 +60,15 @@ export const StickyMobileCta: React.FC<StickyMobileCtaProps> = ({ onOpenModal })
         <PhoneCall className="w-5 h-5" />
       </a>
 
-      {/* Telegram and WhatsApp messenger buttons */}
+      {/* Telegram messenger button */}
       <a
-        href="https://t.me/izumrudny_gazon"
-        target="_blank"
-        rel="noreferrer referrer"
-        className="flex-1 bg-slate-800 text-white text-[11px] font-extrabold py-3 px-2 rounded-xl flex items-center justify-center gap-1 shadow-sm active:bg-slate-900 transition-all cursor-pointer hover:bg-slate-700"
-      >
-        <Send className="w-3.5 h-3.5 shrink-0" />
-        <span className="truncate">Telegram</span>
-      </a>
-
-      <a
-        href="https://wa.me/79852394989"
+        href="https://t.me/+79852394989"
         target="_blank"
         rel="noreferrer"
-        className="flex-1 bg-gradient-to-r from-[#25a3fc] via-[#524bf2] to-[#b83bf2] text-white text-[11px] font-extrabold py-3 px-2 rounded-xl flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all cursor-pointer hover:brightness-110"
+        className="flex-1 bg-gradient-to-r from-[#229ED9] to-[#0088cc] text-white text-[11px] font-extrabold py-3 px-2 rounded-xl flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all cursor-pointer hover:brightness-110"
       >
-        <MessageCircle className="w-3.5 h-3.5 shrink-0" />
-        <span className="truncate">MAX</span>
+        <Send className="w-3.5 h-3.5 shrink-0" />
+        <span className="truncate">Написать в Telegram</span>
       </a>
 
       {/* Calculator callback pop-up (replaces Find out the price text with Icon) */}

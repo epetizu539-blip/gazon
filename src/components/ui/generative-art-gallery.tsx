@@ -4,6 +4,15 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { ArrowUpRight, Sparkles, CheckCircle2 } from 'lucide-react';
 
+// @ts-ignore
+import autoIrrigationImg from '../../assets/images/regenerated_image_1785007236292.png';
+// @ts-ignore
+import drainageImg from '../../assets/images/regenerated_image_1785007259411.png';
+// @ts-ignore
+import pavingStonesImg from '../../assets/images/regenerated_image_1785007288376.png';
+// @ts-ignore
+import landscapeLightingImg from '../../assets/images/regenerated_image_1785007311805.png';
+
 // Utility for class names
 const cn = (...classes: (string | boolean | undefined)[]) => classes.filter(Boolean).join(' ');
 
@@ -238,42 +247,28 @@ export const GenerativeArtGallery: React.FC<GenerativeArtGalleryProps> = ({ onOp
       title: "Системы автополива",
       category: "Инженерия",
       description: "Проектирование и монтаж скрытого автоматического полива с датчиками влажности почвы и форсунками Hunter.",
-      image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=800&q=80"
+      image: autoIrrigationImg
     },
     {
       id: "drainage_system",
       title: "Дренаж и ливневка",
       category: "Водоотведение",
       description: "Глубинный дренаж и ливневая канализация для защиты газона от застоя воды и заболачивания.",
-      image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80"
+      image: drainageImg
     },
     {
       id: "paving_stones",
       title: "Укладка брусчатки",
       category: "Благоустройство",
       description: "Мощение тротуарной плитки, садовых дорожек и парковочных зон с подготовкой усиленного основания.",
-      image: "https://images.unsplash.com/photo-1595846519845-68e298c2edd8?auto=format&fit=crop&w=800&q=80"
+      image: pavingStonesImg
     },
     {
       id: "landscape_lighting",
       title: "Ландшафтное освещение",
       category: "Подсветка",
       description: "Архитектурная и парковая 12V подсветка газона, дорожек, альпийских горок и деревьев.",
-      image: "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      id: "lawn_maintanance",
-      title: "Уход и аэрация газона",
-      category: "Сервис",
-      description: "Сезонная скарификация, аэрация колющими валами, внесение комплексных удобрений и стрижка.",
-      image: "https://images.unsplash.com/photo-1592417817038-d13fd7342605?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      id: "soil_prep",
-      title: "Подготовка и культивация",
-      category: "Земляные работы",
-      description: "Выравнивание рельефа мотоблоком, выборка сорняков, ввоз плодородного просеянного грунта.",
-      image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=80"
+      image: landscapeLightingImg
     }
   ];
 
@@ -332,7 +327,7 @@ export const GenerativeArtGallery: React.FC<GenerativeArtGalleryProps> = ({ onOp
         </div>
 
         {/* Gallery Grid */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {serviceItems.map((item, index) => (
             <GalleryCard
               key={item.id}

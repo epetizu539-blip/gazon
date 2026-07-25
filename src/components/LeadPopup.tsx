@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle, Shield, Phone, MessageSquare, ClipboardCheck, ArrowRight } from 'lucide-react';
+import { X, CheckCircle, Shield, Phone, MessageSquare, ClipboardCheck, ArrowRight, Send } from 'lucide-react';
 
 interface LeadPopupProps {
   idName?: string;
@@ -353,13 +353,13 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
               {/* Instant Messengers links for better conversions */}
               <div className="flex flex-col sm:flex-row gap-3 mt-6">
                 <a
-                  href={`https://wa.me/79852394989?text=Привет!%20Я%20оставил%20заявку%20на%20сайте%20на%20имя%20${encodeURIComponent(name)}.`}
+                  href={`https://t.me/+79852394989?text=Привет!%20Я%20оставил%20заявку%20на%20сайте%20на%20имя%20${encodeURIComponent(name)}.`}
                   target="_blank"
                   rel="noreferrer referrer"
-                  className="flex-1 bg-gradient-to-r from-[#25a3fc] via-[#524bf2] to-[#b83bf2] text-white font-bold text-xs py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 active:scale-95 transition-all cursor-pointer shadow-md"
+                  className="flex-1 bg-gradient-to-r from-[#229ED9] to-[#0088cc] text-white font-bold text-xs py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 active:scale-95 transition-all cursor-pointer shadow-md"
                 >
-                  <MessageSquare className="w-4 h-4 fill-white" />
-                  <span>Написать в MAX</span>
+                  <Send className="w-4 h-4 text-white" />
+                  <span>Написать в Telegram</span>
                 </a>
                 <button
                   onClick={onClose}

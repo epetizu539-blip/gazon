@@ -18,7 +18,7 @@ import { StickyMobileCta } from './components/StickyMobileCta';
 import { LeadPopup } from './components/LeadPopup';
 
 import { CASE_REVIEWS } from './data';
-import { Star, ShieldAlert, CheckCircle2, ChevronRight, Phone, MessageSquare, MapPin, Building, FileText, Sparkles, UserCheck } from 'lucide-react';
+import { Star, ShieldAlert, CheckCircle2, ChevronRight, Phone, Send, MapPin, Building, FileText, Sparkles, UserCheck } from 'lucide-react';
 
 export default function App() {
   // Modal configurations
@@ -328,11 +328,11 @@ export default function App() {
 
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-xl bg-slate-800/80 text-brand-emerald flex items-center justify-center shrink-0">
-                      <MessageSquare className="w-4 h-4 text-brand-emerald" />
+                      <Send className="w-4 h-4 text-brand-emerald" />
                     </div>
                     <div>
-                      <span className="block text-[10px] uppercase font-bold text-slate-400">Наш Чат MAX:</span>
-                      <a href="https://wa.me/79852394989" target="_blank" rel="noreferrer" className="font-extrabold text-[#f3f4f6] hover:text-[#10b981] transition-colors leading-relaxed">+7 (985) 239-49-89</a>
+                      <span className="block text-[10px] uppercase font-bold text-slate-400">Наш Telegram:</span>
+                      <a href="https://t.me/+79852394989" target="_blank" rel="noreferrer" className="font-extrabold text-[#f3f4f6] hover:text-[#10b981] transition-colors leading-relaxed">+7 (985) 239-49-89</a>
                     </div>
                   </div>
 
