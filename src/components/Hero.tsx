@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { CheckCircle2, ShieldCheck, Flame, Star, Compass, Snowflake, ArrowRight } from 'lucide-react';
+import heroLawnImg from '../assets/images/hero_lawn.jpg';
 
 interface HeroProps {
   onOpenModal: (title: string, subtitle: string, buttonText: string, source: string) => void;
@@ -147,16 +148,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
                 {/* Main premium illustration photo border card with translucent backdrop blending */}
                 <div className="relative rounded-[28px] overflow-hidden bg-gradient-to-tr from-brand-main/40 via-brand-emerald/30 to-brand-gold/20 border border-white/15 shadow-inner">
                   <img
-                    src="/images/hero_lawn.webp"
+                    src={heroLawnImg}
                     alt="Красивый постеленный рулонный газон у роскошного загородного дома"
                     className="w-full h-[380px] sm:h-[460px] object-cover group-hover:scale-105 transition-all duration-700"
                     fetchPriority="high"
                     decoding="async"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.onerror = null;
-                      target.src = '/images/hero_lawn.jpg';
-                    }}
                   />
                   
                   {/* Visual image bottom gradient overlay with soft translucent feel */}

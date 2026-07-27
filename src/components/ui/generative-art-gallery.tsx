@@ -4,6 +4,11 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { ArrowUpRight, Sparkles, CheckCircle2 } from 'lucide-react';
 
+import autoIrrigationImg from '../../assets/images/auto_irrigation.jpg';
+import drainageImg from '../../assets/images/drainage_system.jpg';
+import pavingStonesImg from '../../assets/images/paving_stones.jpg';
+import landscapeLightingImg from '../../assets/images/landscape_lighting.jpg';
+
 // Utility for class names
 const cn = (...classes: (string | boolean | undefined)[]) => classes.filter(Boolean).join(' ');
 
@@ -151,11 +156,6 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ item, index, onSelect }) => {
           loading="eager"
           decoding="sync"
           className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.onerror = null;
-            target.src = `/images/${item.id}.jpg`;
-          }}
         />
         <GenerativeArtCanvas isHovered={isHovered} />
 
@@ -219,28 +219,28 @@ export const GenerativeArtGallery: React.FC<GenerativeArtGalleryProps> = ({ onOp
       title: "Системы автополива",
       category: "Инженерия",
       description: "Проектирование и монтаж скрытого автоматического полива с датчиками влажности почвы и форсунками Hunter.",
-      image: "/images/auto_irrigation.webp"
+      image: autoIrrigationImg
     },
     {
       id: "drainage_system",
       title: "Дренаж и ливневка",
       category: "Водоотведение",
       description: "Глубинный дренаж и ливневая канализация для защиты газона от застоя воды и заболачивания.",
-      image: "/images/drainage_system.webp"
+      image: drainageImg
     },
     {
       id: "paving_stones",
       title: "Укладка брусчатки",
       category: "Благоустройство",
       description: "Мощение тротуарной плитки, садовых дорожек и парковочных зон с подготовкой усиленного основания.",
-      image: "/images/paving_stones.webp"
+      image: pavingStonesImg
     },
     {
       id: "landscape_lighting",
       title: "Ландшафтное освещение",
       category: "Подсветка",
       description: "Архитектурная и парковая 12V подсветка газона, дорожек, альпийских горок и деревьев.",
-      image: "/images/landscape_lighting.webp"
+      image: landscapeLightingImg
     }
   ];
 

@@ -136,11 +136,6 @@ export default function App() {
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
                       loading="lazy"
                       decoding="async"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.onerror = null;
-                        target.src = '/images/case1_after.jpg';
-                      }}
                     />
                     <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md text-[8px] font-black bg-brand-emerald text-white font-mono shadow-sm">
                       {review.area} м²
