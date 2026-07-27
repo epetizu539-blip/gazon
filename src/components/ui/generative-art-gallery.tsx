@@ -6,8 +6,7 @@ import { ArrowUpRight, Sparkles, CheckCircle2 } from 'lucide-react';
 
 // @ts-ignore
 import autoIrrigationImg from '../../assets/images/regenerated_image_1785007236292.png';
-// @ts-ignore
-import drainageImg from '../../assets/images/regenerated_image_1785007259411.png';
+const drainageImg = "https://images.unsplash.com/photo-1590682680695-43b964a3ae17?q=80&w=600&auto=format&fit=crop";
 // @ts-ignore
 import pavingStonesImg from '../../assets/images/regenerated_image_1785007288376.png';
 // @ts-ignore
@@ -327,7 +326,7 @@ export const GenerativeArtGallery: React.FC<GenerativeArtGalleryProps> = ({ onOp
         </div>
 
         {/* Gallery Grid */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
           {serviceItems.map((item, index) => (
             <GalleryCard
               key={item.id}

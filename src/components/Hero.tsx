@@ -187,7 +187,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
                   12
                 </div>
                 <div className="text-left">
-                  <span className="block text-[10px] uppercase font-bold text-slate-300">Договорная</span>
                   <p className="text-xs font-extrabold">Гарантия приживаемости 12 месяцев</p>
                 </div>
               </div>

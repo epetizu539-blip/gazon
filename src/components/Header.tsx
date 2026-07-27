@@ -76,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
                 <span>+7 (985) 239-49-89</span>
               </a>
               <span className="block text-[9px] sm:text-[10px] text-slate-500 font-medium leading-none mt-1">
-                Звонок бесплатный • Круглосуточно
+                Звонок бесплатный
               </span>
             </div>
             

@@ -329,8 +329,7 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
                 Большое спасибо, {name}!
               </h3>
               <p className="text-slate-600 text-sm mt-3 leading-relaxed">
-                Смета успешно зафиксирована. Мы отправили подробный PDF-каталог с ценами в{" "}
-                <strong>MAX</strong> на номер <strong>{phone}</strong>
+                Смета успешно зафиксирована. Мы отправили подробный расчет с ценами на номер <strong>{phone}</strong>
                 {address && (
                   <>
                     {" "}и уже рассчитываем точную стоимость доставки до: <strong>{address}</strong>
