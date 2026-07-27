@@ -5,28 +5,6 @@
 
 import { LawnType, QuizQuestion, Review } from './types';
 
-// @ts-ignore
-import case1Before from './assets/images/case1_before.webp';
-// @ts-ignore
-import case1After from './assets/images/case1_after.webp';
-// @ts-ignore
-import lawnBefore from './assets/images/lawn_before.webp';
-// @ts-ignore
-import lawnAfter from './assets/images/lawn_after.webp';
-// @ts-ignore
-import lawnUniversalImg from './assets/images/lawn_universal.webp';
-// @ts-ignore
-import lawnPremiumImg from './assets/images/lawn_premium.webp';
-// @ts-ignore
-import lawnEliteImg from './assets/images/lawn_elite.webp';
-// @ts-ignore
-import lawnShadowImg from './assets/images/lawn_shadow.webp';
-// @ts-ignore
-import avatar1Img from './assets/images/avatar_1.webp';
-// @ts-ignore
-import avatar2Img from './assets/images/avatar_2.webp';
-
-
 export const LAWN_TYPES: LawnType[] = [
   {
     id: 'standard',
@@ -45,7 +23,7 @@ export const LAWN_TYPES: LawnType[] = [
       'Не требует сложного ухода и частого кошения'
     ],
     bestFor: 'Муниципальные скверы, обочины, широкие загородные поляны, коммерческая недвижимость.',
-    image: lawnUniversalImg
+    image: '/images/lawn_universal.webp'
   },
   {
     id: 'premium',
@@ -64,7 +42,7 @@ export const LAWN_TYPES: LawnType[] = [
       'Приятный на ощупь, идеален для ходьбы босиком'
     ],
     bestFor: 'Частные коттеджи, таунхаусы, зоны активного отдыха в элитных поселках.',
-    image: lawnPremiumImg
+    image: '/images/lawn_premium.webp'
   },
   {
     id: 'elite',
@@ -83,7 +61,7 @@ export const LAWN_TYPES: LawnType[] = [
       'Шелковистый уплотненный ворс, который долго держит форму'
     ],
     bestFor: 'Частные спортивные и детские площадки, гольф-поля, участки с высокой нагрузкой.',
-    image: lawnEliteImg
+    image: '/images/lawn_elite.webp'
   },
   {
     id: 'shadow',
@@ -102,7 +80,7 @@ export const LAWN_TYPES: LawnType[] = [
       'Устойчивость к грибковым заболеваниям во влажных тенистых местах'
     ],
     bestFor: 'Сады с густыми деревьями, тенистые внутренние дворики, участки рядом с высокими постройками.',
-    image: lawnShadowImg
+    image: '/images/lawn_shadow.webp'
   }
 ];
 
@@ -148,10 +126,10 @@ export const CASE_REVIEWS: Review[] = [
     lawnTypeRu: 'Парковый Премиум',
     text: 'Обратился в компанию в середине мая. Буквально за пару дней согласовали смету, замерщик приехал бесплатно в день звонка со всеми образцами травы. Сама укладка заняла всего один день! Ребята вывезли старые корни, завезли 5 тонн свежего грунта, выровняли все по лазеру и раскатали изумрудное чудо. Прошло 2 месяца — газон чувствует себя великолепно, растет плотный, сорняков ноль. Отдельное спасибо за подробную инструкцию по автополиву!',
     rating: 5,
-    beforeImage: case1Before,
-    afterImage: case1After,
+    beforeImage: '/images/case1_before.webp',
+    afterImage: '/images/case1_after.webp',
     date: '12.05.2026',
-    avatar: avatar1Img
+    avatar: '/images/avatar_1.webp'
   },
   {
     id: 2,
@@ -161,10 +139,10 @@ export const CASE_REVIEWS: Review[] = [
     lawnTypeRu: 'Спортивный / Элитный',
     text: 'Нам требовалось подготовить участок с нуля после завершения строительства. Рабочие завезли плодородный грунт, выровняли по уровню культиватором и уложили элитный рулонный газон буквально за день. Стыков вообще не видно, трава сочная, густая, сорняков нет. Прекрасно гармонирует с нашими соснами и елями!',
     rating: 5,
-    beforeImage: lawnBefore,
-    afterImage: lawnAfter,
+    beforeImage: '/images/lawn_before.webp',
+    afterImage: '/images/lawn_after.webp',
     date: '08.06.2026',
-    avatar: avatar2Img
+    avatar: '/images/avatar_2.webp'
   }
 ];
 

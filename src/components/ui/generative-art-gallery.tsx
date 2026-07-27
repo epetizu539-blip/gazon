@@ -4,17 +4,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { ArrowUpRight, Sparkles, CheckCircle2 } from 'lucide-react';
 
-// @ts-ignore
-import autoIrrigationImg from '../../assets/images/auto_irrigation.webp';
-// @ts-ignore
-import heroLawnImg from '../../assets/images/hero_lawn.webp';
-// @ts-ignore
-import drainageImg from '../../assets/images/drainage_system.webp';
-// @ts-ignore
-import pavingStonesImg from '../../assets/images/paving_stones.webp';
-// @ts-ignore
-import landscapeLightingImg from '../../assets/images/landscape_lighting.webp';
-
 // Utility for class names
 const cn = (...classes: (string | boolean | undefined)[]) => classes.filter(Boolean).join(' ');
 
@@ -131,25 +120,6 @@ interface GalleryCardProps {
 // Gallery Card Component matching site styling
 const GalleryCard: React.FC<GalleryCardProps> = ({ item, index, onSelect }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["6deg", "-6deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-6deg", "6deg"]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    x.set((e.clientX - rect.left) / rect.width - 0.5);
-    y.set((e.clientY - rect.top) / rect.height - 0.5);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
 
   const cardVariants = {
     offscreen: { y: 40, opacity: 0 },
@@ -166,33 +136,31 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ item, index, onSelect }) => {
       variants={cardVariants}
       initial="offscreen"
       whileInView="onscreen"
+      whileHover={{ y: -6 }}
       viewport={{ once: true, amount: 0.2 }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       onClick={() => onSelect && onSelect(item)}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       className="group relative w-full rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-2xl hover:border-brand-emerald/40 cursor-pointer overflow-hidden transition-all duration-300 flex flex-col justify-between"
     >
       {/* Top Image Container */}
-      <div className="relative h-56 w-full overflow-hidden bg-slate-100">
+      <div className="relative h-52 w-full overflow-hidden bg-slate-100">
         <img
           src={item.image}
           alt={item.title}
-          loading="lazy"
-          decoding="async"
-          className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+          loading="eager"
+          decoding="sync"
+          className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.onerror = null;
-            target.src = heroLawnImg;
+            target.src = `/images/${item.id}.jpg`;
           }}
         />
         <GenerativeArtCanvas isHovered={isHovered} />
 
-        {/* Gradient overlay for contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-900/10 to-transparent"></div>
+        {/* Gradient overlay for text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-900/20 to-transparent pointer-events-none"></div>
 
         {/* Top category badge */}
         <div className="absolute top-4 left-4 z-10">
@@ -251,28 +219,28 @@ export const GenerativeArtGallery: React.FC<GenerativeArtGalleryProps> = ({ onOp
       title: "Системы автополива",
       category: "Инженерия",
       description: "Проектирование и монтаж скрытого автоматического полива с датчиками влажности почвы и форсунками Hunter.",
-      image: autoIrrigationImg
+      image: "/images/auto_irrigation.webp"
     },
     {
       id: "drainage_system",
       title: "Дренаж и ливневка",
       category: "Водоотведение",
       description: "Глубинный дренаж и ливневая канализация для защиты газона от застоя воды и заболачивания.",
-      image: drainageImg
+      image: "/images/drainage_system.webp"
     },
     {
       id: "paving_stones",
       title: "Укладка брусчатки",
       category: "Благоустройство",
       description: "Мощение тротуарной плитки, садовых дорожек и парковочных зон с подготовкой усиленного основания.",
-      image: pavingStonesImg
+      image: "/images/paving_stones.webp"
     },
     {
       id: "landscape_lighting",
       title: "Ландшафтное освещение",
       category: "Подсветка",
       description: "Архитектурная и парковая 12V подсветка газона, дорожек, альпийских горок и деревьев.",
-      image: landscapeLightingImg
+      image: "/images/landscape_lighting.webp"
     }
   ];
 
