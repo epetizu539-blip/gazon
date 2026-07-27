@@ -13,6 +13,18 @@ import case1After from './assets/images/case1_after.webp';
 import lawnBefore from './assets/images/lawn_before.webp';
 // @ts-ignore
 import lawnAfter from './assets/images/lawn_after.webp';
+// @ts-ignore
+import lawnUniversalImg from './assets/images/lawn_universal.webp';
+// @ts-ignore
+import lawnPremiumImg from './assets/images/lawn_premium.webp';
+// @ts-ignore
+import lawnEliteImg from './assets/images/lawn_elite.webp';
+// @ts-ignore
+import lawnShadowImg from './assets/images/lawn_shadow.webp';
+// @ts-ignore
+import avatar1Img from './assets/images/avatar_1.webp';
+// @ts-ignore
+import avatar2Img from './assets/images/avatar_2.webp';
 
 
 export const LAWN_TYPES: LawnType[] = [
@@ -33,7 +45,7 @@ export const LAWN_TYPES: LawnType[] = [
       'Не требует сложного ухода и частого кошения'
     ],
     bestFor: 'Муниципальные скверы, обочины, широкие загородные поляны, коммерческая недвижимость.',
-    image: 'https://images.unsplash.com/photo-1533460004989-cef01064af7e?auto=format&fit=crop&w=600&fm=webp&q=75'
+    image: lawnUniversalImg
   },
   {
     id: 'premium',
@@ -52,7 +64,7 @@ export const LAWN_TYPES: LawnType[] = [
       'Приятный на ощупь, идеален для ходьбы босиком'
     ],
     bestFor: 'Частные коттеджи, таунхаусы, зоны активного отдыха в элитных поселках.',
-    image: 'https://images.unsplash.com/photo-1592417817098-8f3d6fe19675?auto=format&fit=crop&w=600&fm=webp&q=75'
+    image: lawnPremiumImg
   },
   {
     id: 'elite',
@@ -71,7 +83,7 @@ export const LAWN_TYPES: LawnType[] = [
       'Шелковистый уплотненный ворс, который долго держит форму'
     ],
     bestFor: 'Частные спортивные и детские площадки, гольф-поля, участки с высокой нагрузкой.',
-    image: 'https://images.unsplash.com/photo-1558905619-17253b47cc9c?auto=format&fit=crop&w=600&fm=webp&q=75'
+    image: lawnEliteImg
   },
   {
     id: 'shadow',
@@ -90,7 +102,7 @@ export const LAWN_TYPES: LawnType[] = [
       'Устойчивость к грибковым заболеваниям во влажных тенистых местах'
     ],
     bestFor: 'Сады с густыми деревьями, тенистые внутренние дворики, участки рядом с высокими постройками.',
-    image: 'https://images.unsplash.com/photo-1508873696983-2df519f0397e?auto=format&fit=crop&w=600&fm=webp&q=75'
+    image: lawnShadowImg
   }
 ];
 
@@ -139,7 +151,7 @@ export const CASE_REVIEWS: Review[] = [
     beforeImage: case1Before,
     afterImage: case1After,
     date: '12.05.2026',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'
+    avatar: avatar1Img
   },
   {
     id: 2,
@@ -152,7 +164,7 @@ export const CASE_REVIEWS: Review[] = [
     beforeImage: lawnBefore,
     afterImage: lawnAfter,
     date: '08.06.2026',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80'
+    avatar: avatar2Img
   }
 ];
 

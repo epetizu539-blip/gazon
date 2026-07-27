@@ -8,7 +8,8 @@ import { ArrowUpRight, Sparkles, CheckCircle2 } from 'lucide-react';
 import autoIrrigationImg from '../../assets/images/auto_irrigation.webp';
 // @ts-ignore
 import heroLawnImg from '../../assets/images/hero_lawn.webp';
-const drainageImg = heroLawnImg;
+// @ts-ignore
+import drainageImg from '../../assets/images/drainage_system.webp';
 // @ts-ignore
 import pavingStonesImg from '../../assets/images/paving_stones.webp';
 // @ts-ignore
