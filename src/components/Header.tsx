@@ -168,7 +168,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
               </button>
             </div>
             <p className="text-[10px] text-slate-400 text-center leading-normal">
-              ООО «ЛАНДШАФТ РФ» • ОГРН 1157746352920 <br />Работаем по всей Москве и Московской области
+              ООО «ЛАНДШАФТ РФ» <br />Работаем по всей Москве и Московской области
             </p>
           </div>
         </>

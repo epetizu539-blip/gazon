@@ -135,6 +135,8 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
           src={beforeImage}
           alt="До проведения работ по укладке рулонного газона"
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          loading="lazy"
+          decoding="async"
           referrerPolicy="no-referrer"
         />
 
@@ -147,6 +149,8 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
             src={afterImage}
             alt="После проведения работ по укладке рулонного газона под ключ"
             className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            loading="lazy"
+            decoding="async"
             referrerPolicy="no-referrer"
           />
         </div>

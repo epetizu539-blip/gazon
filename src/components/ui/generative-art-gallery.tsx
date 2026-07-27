@@ -5,12 +5,12 @@ import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { ArrowUpRight, Sparkles, CheckCircle2 } from 'lucide-react';
 
 // @ts-ignore
-import autoIrrigationImg from '../../assets/images/regenerated_image_1785007236292.png';
+import autoIrrigationImg from '../../assets/images/auto_irrigation.webp';
 const drainageImg = "https://images.unsplash.com/photo-1590682680695-43b964a3ae17?q=80&w=600&auto=format&fit=crop";
 // @ts-ignore
-import pavingStonesImg from '../../assets/images/regenerated_image_1785007288376.png';
+import pavingStonesImg from '../../assets/images/paving_stones.webp';
 // @ts-ignore
-import landscapeLightingImg from '../../assets/images/regenerated_image_1785007311805.png';
+import landscapeLightingImg from '../../assets/images/landscape_lighting.webp';
 
 // Utility for class names
 const cn = (...classes: (string | boolean | undefined)[]) => classes.filter(Boolean).join(' ');
@@ -177,6 +177,8 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ item, index, onSelect }) => {
         <img
           src={item.image}
           alt={item.title}
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
           onError={(e) => {
             const target = e.target as HTMLImageElement;

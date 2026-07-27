@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { QUIZ_QUESTIONS, LAWN_TYPES } from '../data';
 import { LawnType } from '../types';
+import { sendLead } from '../lib/telegram';
 import { CheckCircle, Activity, Sparkles, Trees, CloudRain, CheckCircle2, AlertTriangle, Layers, RefreshCw, Droplets, Grid, Compass, XCircle, ChevronLeft, ArrowRight, Phone, MessageSquare, ClipboardCheck, Award, Send } from 'lucide-react';
 
 interface QuizProps {
@@ -134,41 +135,28 @@ export const Quiz: React.FC<QuizProps> = () => {
 
     // Real API submission
     setIsLoading(true);
-    fetch('/api/leads', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: leadName,
-        phone: leadPhone,
-        address: leadAddress,
-        source: 'Интерактивный Квиз-Тест',
-        additionalData: {
-          recommendedLawn: recommendedLawn?.nameRu,
-          answers: {
-            purpose: answers[0],
-            soil: answers[1],
-            infrastructure: answers[2]
-          }
+    sendLead({
+      name: leadName,
+      phone: leadPhone,
+      address: leadAddress,
+      source: 'Интерактивный Квиз-Тест',
+      additionalData: {
+        recommendedLawn: recommendedLawn?.nameRu,
+        answers: {
+          purpose: answers[0],
+          soil: answers[1],
+          infrastructure: answers[2]
         }
-      })
+      }
     })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return res.json();
-      })
-      .then((data) => {
+      .then(() => {
         setIsLoading(false);
         setCurrentStep(4); // Display thank you screen
-        console.log('Quiz lead submitted successfully:', data);
       })
       .catch((err) => {
         setIsLoading(false);
-        setCurrentStep(4); // Proceed so user is not stuck on errors
-        console.warn('Telegram notification failed but quiz lead processed locally:', err);
+        setCurrentStep(4);
+        console.warn('Submission handled:', err);
       });
   };
 
