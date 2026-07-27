@@ -6,7 +6,9 @@ import { ArrowUpRight, Sparkles, CheckCircle2 } from 'lucide-react';
 
 // @ts-ignore
 import autoIrrigationImg from '../../assets/images/auto_irrigation.webp';
-const drainageImg = "https://images.unsplash.com/photo-1590682680695-43b964a3ae17?q=80&w=600&auto=format&fit=crop";
+// @ts-ignore
+import heroLawnImg from '../../assets/images/hero_lawn.webp';
+const drainageImg = heroLawnImg;
 // @ts-ignore
 import pavingStonesImg from '../../assets/images/paving_stones.webp';
 // @ts-ignore
@@ -183,7 +185,7 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ item, index, onSelect }) => {
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.onerror = null;
-            target.src = 'https://images.unsplash.com/photo-1558904541-efa8c196b27d?q=80&w=600&auto=format&fit=crop';
+            target.src = heroLawnImg;
           }}
         />
         <GenerativeArtCanvas isHovered={isHovered} />

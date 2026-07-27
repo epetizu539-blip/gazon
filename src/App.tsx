@@ -136,7 +136,6 @@ export default function App() {
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
                       loading="lazy"
                       decoding="async"
-                      referrerPolicy="no-referrer"
                     />
                     <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md text-[8px] font-black bg-brand-emerald text-white font-mono shadow-sm">
                       {review.area} м²
@@ -232,7 +231,6 @@ export default function App() {
                         src={activeReview.avatar}
                         alt={activeReview.author}
                         className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm shrink-0"
-                        referrerPolicy="no-referrer"
                         loading="lazy"
                       />
                       <div className="text-[10px] leading-tight">

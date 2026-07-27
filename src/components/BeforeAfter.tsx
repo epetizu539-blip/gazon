@@ -137,7 +137,6 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           loading="lazy"
           decoding="async"
-          referrerPolicy="no-referrer"
         />
 
         {/* AFTER IMAGE (Top Layer, Clipped) */}
@@ -151,7 +150,6 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
             className="absolute inset-0 w-full h-full object-cover pointer-events-none"
             loading="lazy"
             decoding="async"
-            referrerPolicy="no-referrer"
           />
         </div>
 

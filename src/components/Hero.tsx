@@ -154,7 +154,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
                     className="w-full h-[380px] sm:h-[460px] object-cover group-hover:scale-105 transition-all duration-700"
                     fetchPriority="high"
                     decoding="async"
-                    referrerPolicy="no-referrer"
                   />
                   
                   {/* Visual image bottom gradient overlay with soft translucent feel */}

@@ -298,7 +298,6 @@ export const Quiz: React.FC<QuizProps> = () => {
                     src={recommendedLawn.image}
                     alt={recommendedLawn.nameRu}
                     className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
