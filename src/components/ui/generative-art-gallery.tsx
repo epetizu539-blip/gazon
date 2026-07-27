@@ -155,7 +155,17 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ item, index, onSelect }) => {
           alt={item.title}
           loading="eager"
           decoding="sync"
-          className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (!target.dataset.fallbackTried) {
+              target.dataset.fallbackTried = '1';
+              target.src = `/images/${item.id}.jpg`;
+            } else if (target.dataset.fallbackTried === '1') {
+              target.dataset.fallbackTried = '2';
+              target.src = `/images/${item.id}.webp`;
+            }
+          }}
         />
         <GenerativeArtCanvas isHovered={isHovered} />
 

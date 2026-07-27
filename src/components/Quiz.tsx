@@ -299,6 +299,13 @@ export const Quiz: React.FC<QuizProps> = () => {
                     alt={recommendedLawn.nameRu}
                     className="w-full h-full object-cover"
                     loading="lazy"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (!target.dataset.tried) {
+                        target.dataset.tried = '1';
+                        target.src = '/images/lawn_universal.jpg';
+                      }
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   <span className="absolute bottom-2.5 left-3.5 text-white text-[11px] font-bold">Образец газона из нашего питомника</span>

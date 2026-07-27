@@ -137,6 +137,13 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           loading="lazy"
           decoding="async"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (!target.dataset.tried) {
+              target.dataset.tried = '1';
+              target.src = '/images/case1_before.jpg';
+            }
+          }}
         />
 
         {/* AFTER IMAGE (Top Layer, Clipped) */}
@@ -150,6 +157,13 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
             className="absolute inset-0 w-full h-full object-cover pointer-events-none"
             loading="lazy"
             decoding="async"
+            onError={(e) => {
+              const target = e.currentTarget;
+              if (!target.dataset.tried) {
+                target.dataset.tried = '1';
+                target.src = '/images/case1_after.jpg';
+              }
+            }}
           />
         </div>
 

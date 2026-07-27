@@ -153,6 +153,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
                     className="w-full h-[380px] sm:h-[460px] object-cover group-hover:scale-105 transition-all duration-700"
                     fetchPriority="high"
                     decoding="async"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (!target.dataset.tried) {
+                        target.dataset.tried = '1';
+                        target.src = '/images/hero_lawn.jpg';
+                      } else if (target.dataset.tried === '1') {
+                        target.dataset.tried = '2';
+                        target.src = '/images/hero_lawn.webp';
+                      }
+                    }}
                   />
                   
                   {/* Visual image bottom gradient overlay with soft translucent feel */}
