@@ -134,7 +134,16 @@ export const Quiz: React.FC<QuizProps> = () => {
 
     // Real API submission
     setIsLoading(true);
-    fetch('/api/leads', {
+
+    const quizComment = [
+      leadAddress ? `Адрес: ${leadAddress}` : '',
+      recommendedLawn?.nameRu ? `Сорт: ${recommendedLawn.nameRu}` : '',
+      'Интерактивный Квиз-Тест'
+    ]
+      .filter(Boolean)
+      .join('; ');
+
+    fetch('/api/send-message', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -142,33 +151,24 @@ export const Quiz: React.FC<QuizProps> = () => {
       body: JSON.stringify({
         name: leadName,
         phone: leadPhone,
-        address: leadAddress,
-        source: 'Интерактивный Квиз-Тест',
-        additionalData: {
-          recommendedLawn: recommendedLawn?.nameRu,
-          answers: {
-            purpose: answers[0],
-            soil: answers[1],
-            infrastructure: answers[2]
-          }
-        }
+        comment: quizComment
       })
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Ошибка сети при отправке квиза');
         }
         return res.json();
       })
       .then((data) => {
         setIsLoading(false);
-        setCurrentStep(4); // Display thank you screen
+        setCurrentStep(4); // Open thank-you / success view ONLY if response.ok
         console.log('Quiz lead submitted successfully:', data);
       })
       .catch((err) => {
         setIsLoading(false);
-        setCurrentStep(4); // Proceed so user is not stuck on errors
-        console.warn('Telegram notification failed but quiz lead processed locally:', err);
+        setErrorPhone('Не удалось отправить данные. Попробуйте еще раз.');
+        console.error('Quiz submission error:', err);
       });
   };
 

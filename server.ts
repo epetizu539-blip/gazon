@@ -144,6 +144,70 @@ async function startServer() {
     }
   });
 
+  // API route to send messages from all site forms ({ name, phone, comment })
+  app.post("/api/send-message", async (req, res) => {
+    try {
+      const { name, phone, comment } = req.body;
+
+      if (!name || !phone) {
+        return res.status(400).json({
+          success: false,
+          error: "Поля 'name' и 'phone' обязательны."
+        });
+      }
+
+      console.log("Received new message via /api/send-message:", { name, phone, comment });
+
+      const botToken = process.env.TELEGRAM_BOT_TOKEN;
+      const chatId = process.env.TELEGRAM_CHAT_ID;
+
+      let message = `🔔 <b>Новая заявка с сайта Газонов!</b>\n\n`;
+      message += `👤 <b>Имя:</b> ${name}\n`;
+      message += `📞 <b>Телефон:</b> <code>${phone}</code>\n`;
+      if (comment) {
+        message += `💬 <b>Комментарий:</b> ${comment}\n`;
+      }
+      message += `\n⏱ <b>Время:</b> ${new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" })} (МСК)`;
+
+      if (botToken && chatId) {
+        const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        const response = await fetch(telegramUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+            parse_mode: "HTML",
+          }),
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          console.error("Telegram API error response:", errText);
+          return res.status(502).json({
+            success: false,
+            error: "Failed to send message to Telegram API",
+            details: errText
+          });
+        }
+
+        console.log("Successfully sent message to Telegram!");
+        return res.status(200).json({ success: true, message: "Message sent successfully!" });
+      } else {
+        console.warn("TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set. Processing message locally.");
+        return res.status(200).json({
+          success: true,
+          mocked: true,
+          message: "Message processed successfully on server (Telegram credentials not configured).",
+          data: { name, phone, comment }
+        });
+      }
+    } catch (error: any) {
+      console.error("Error in /api/send-message handler:", error);
+      return res.status(500).json({ success: false, error: "Internal server error", details: error.message });
+    }
+  });
+
   // Vite integration
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({

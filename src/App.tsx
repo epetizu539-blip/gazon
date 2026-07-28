@@ -28,6 +28,11 @@ export default function App() {
   const [modalButtonText, setModalButtonText] = useState('');
   const [modalSource, setModalSource] = useState('');
   const [modalAdditionalData, setModalAdditionalData] = useState<Record<string, string | number | boolean | string[]>>({});
+  const [modalInitialSuccess, setModalInitialSuccess] = useState(false);
+
+  // Footer form states
+  const [footerSubmitting, setFooterSubmitting] = useState(false);
+  const [footerError, setFooterError] = useState('');
 
   // Active Portfolio item tab index
   const [activeReviewIdx, setActiveReviewIdx] = useState(0);
@@ -38,6 +43,7 @@ export default function App() {
     setModalButtonText(buttonText);
     setModalSource(source);
     setModalAdditionalData({});
+    setModalInitialSuccess(false);
     setModalOpen(true);
   };
 
@@ -53,6 +59,21 @@ export default function App() {
     setModalButtonText(buttonText);
     setModalSource(source);
     setModalAdditionalData(data);
+    setModalInitialSuccess(false);
+    setModalOpen(true);
+  };
+
+  const openSuccessModal = (
+    title: string,
+    subtitle: string,
+    data: Record<string, string | number | boolean | string[]>
+  ) => {
+    setModalTitle(title);
+    setModalSubtitle(subtitle);
+    setModalButtonText('Понятно');
+    setModalSource('footer_open_form_success');
+    setModalAdditionalData(data);
+    setModalInitialSuccess(true);
     setModalOpen(true);
   };
 
@@ -406,23 +427,53 @@ export default function App() {
 
                 {/* Standard Callback inside contacts block */}
                 <form
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault();
-                    const nameInput = (e.currentTarget.elements.namedItem('footer-name') as HTMLInputElement).value;
-                    const phoneInput = (e.currentTarget.elements.namedItem('footer-phone') as HTMLInputElement).value;
-                    const addressInput = (e.currentTarget.elements.namedItem('footer-address') as HTMLInputElement).value;
-                    
-                    openModalWithData(
-                      'Получить смету со скидкой',
-                      `Заявка принята. Фиксируем персональную скидку 5% на имя ${nameInput}. Наш агроном позвонит на номер ${phoneInput} в течение 10 минут.`,
-                      'Переговорить с агрономом',
-                      'bottom_open_form_footer',
-                      {
-                        name: nameInput,
-                        phone: phoneInput,
-                        address: addressInput
+                    setFooterError('');
+                    const form = e.currentTarget;
+                    const nameInput = (form.elements.namedItem('footer-name') as HTMLInputElement).value;
+                    const phoneInput = (form.elements.namedItem('footer-phone') as HTMLInputElement).value;
+                    const addressInput = (form.elements.namedItem('footer-address') as HTMLInputElement).value;
+
+                    if (!nameInput || !phoneInput) {
+                      setFooterError('Пожалуйста, заполните имя и телефон');
+                      return;
+                    }
+
+                    setFooterSubmitting(true);
+
+                    try {
+                      const response = await fetch('/api/send-message', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                          name: nameInput,
+                          phone: phoneInput,
+                          comment: addressInput || 'Заявка из футера сайта'
+                        })
+                      });
+
+                      if (!response.ok) {
+                        throw new Error(`Ошибка сервера: статус ${response.status}`);
                       }
-                    );
+
+                      // Open success modal ONLY if response.ok is true
+                      openSuccessModal(
+                        'Заявка успешно отправлена!',
+                        `Заявка принята. Фиксируем персональную скидку 5% на имя ${nameInput}. Наш агроном позвонит на номер ${phoneInput} в течение 10 минут.`,
+                        {
+                          name: nameInput,
+                          phone: phoneInput,
+                          address: addressInput
+                        }
+                      );
+                    } catch (err: any) {
+                      setFooterError(err.message || 'Произошла ошибка при отправке. Попробуйте еще раз.');
+                    } finally {
+                      setFooterSubmitting(false);
+                    }
                   }}
                   className="space-y-4 mt-8"
                 >
@@ -477,12 +528,23 @@ export default function App() {
                     />
                   </div>
 
+                  {footerError && (
+                    <p className="text-rose-500 text-xs font-semibold">{footerError}</p>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full bg-brand-gold hover:bg-brand-amber text-brand-dark hover:text-white font-bold text-xs uppercase tracking-wider py-4 px-6 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-brand-gold/10 transition-all"
+                    disabled={footerSubmitting}
+                    className="w-full bg-brand-gold hover:bg-brand-amber text-brand-dark hover:text-white font-bold text-xs uppercase tracking-wider py-4 px-6 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-brand-gold/10 transition-all disabled:opacity-50"
                   >
-                    <span>Запросить сметный лист</span>
-                    <ChevronRight className="w-4 h-4 animate-pulse" />
+                    {footerSubmitting ? (
+                      <span>Отправка...</span>
+                    ) : (
+                      <>
+                        <span>Запросить сметный лист</span>
+                        <ChevronRight className="w-4 h-4 animate-pulse" />
+                      </>
+                    )}
                   </button>
 
                   <p className="text-[10px] text-slate-400 text-center leading-normal">
@@ -554,6 +616,7 @@ export default function App() {
         buttonText={modalButtonText}
         source={modalSource}
         additionalData={modalAdditionalData}
+        initialSuccess={modalInitialSuccess}
       />
 
     </div>

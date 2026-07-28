@@ -15,6 +15,7 @@ interface LeadPopupProps {
   buttonText?: string;
   source: string;
   additionalData?: Record<string, string | number | boolean | string[]>;
+  initialSuccess?: boolean;
 }
 
 export const LeadPopup: React.FC<LeadPopupProps> = ({
@@ -25,7 +26,8 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
   subtitle,
   buttonText = 'Отправить заявку',
   source,
-  additionalData = {} as Record<string, any>
+  additionalData = {} as Record<string, any>,
+  initialSuccess = false
 }) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -44,7 +46,7 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
       setAddress(String(additionalData?.address || ''));
       setErrorPhone('');
       setErrorName('');
-      setIsSuccess(false);
+      setIsSuccess(!!initialSuccess);
       setIsLoading(false);
       // Disable body scroll when open
       document.body.style.overflow = 'hidden';
@@ -54,7 +56,7 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isOpen]);
+  }, [isOpen, initialSuccess]);
 
   // Handle phone input formatting to +7 (999) 999-99-99
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,7 +120,16 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
 
     // Real API submission
     setIsLoading(true);
-    fetch('/api/leads', {
+
+    const commentVal = address
+      ? address
+      : (additionalData && Object.keys(additionalData).length > 0)
+        ? Object.entries(additionalData)
+            .map(([k, v]) => `${k}: ${v}`)
+            .join('; ')
+        : source || '';
+
+    fetch('/api/send-message', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -126,28 +137,24 @@ export const LeadPopup: React.FC<LeadPopupProps> = ({
       body: JSON.stringify({
         name,
         phone,
-        address,
-        source,
-        additionalData
+        comment: commentVal
       })
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Ошибка при отправке сообщения');
         }
         return res.json();
       })
       .then((data) => {
         setIsLoading(false);
-        setIsSuccess(true);
-        console.log('Lead submitted successfully:', data);
+        setIsSuccess(true); // Open success modal window ONLY when response.ok is true
+        console.log('Message submitted successfully:', data);
       })
       .catch((err) => {
         setIsLoading(false);
-        // Set success to true anyway so the user doesn't experience a broken UI, 
-        // but log the error for diagnostics.
-        setIsSuccess(true);
-        console.warn('Telegram Bot notification failed but lead captured locally:', err);
+        setErrorPhone('Не удалось отправить данные. Попробуйте еще раз.');
+        console.error('Send message failed:', err);
       });
   };
 
