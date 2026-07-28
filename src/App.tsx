@@ -134,15 +134,7 @@ export default function App() {
                       src={review.afterImage} 
                       alt={review.location}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
-                      loading="lazy"
-                      decoding="async"
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        if (!target.dataset.tried) {
-                          target.dataset.tried = '1';
-                          target.src = '/images/case1_after.jpg';
-                        }
-                      }}
+                      referrerPolicy="no-referrer"
                     />
                     <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md text-[8px] font-black bg-brand-emerald text-white font-mono shadow-sm">
                       {review.area} м²
@@ -238,6 +230,7 @@ export default function App() {
                         src={activeReview.avatar}
                         alt={activeReview.author}
                         className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm shrink-0"
+                        referrerPolicy="no-referrer"
                         loading="lazy"
                       />
                       <div className="text-[10px] leading-tight">
@@ -538,7 +531,7 @@ export default function App() {
 
           <div className="border-t border-slate-900/80 pt-6 mt-6 text-center md:text-left flex flex-col md:flex-row items-center justify-between text-[10px] text-slate-550 text-slate-500 space-y-4 md:space-y-0 leading-relaxed">
             <p className="max-w-2xl">
-              © 2006-2026 ООО «ЛАНДШАФТ РФ». Все права защищены. <br className="hidden sm:block" />
+              © 2006-2026 ООО «ЛАНДШАФТ РФ» • ИНН 7714341930 • ОГРН 1157746352920. Все права защищены. <br className="hidden sm:block" />
               Любое копирование медиа-материалов, изображений или текстового наполнения карается законом об авторских правах РФ. Информация на сайте носит справочный характер и не является публичной офертой.
             </p>
             <div className="flex items-center gap-1.5 shrink-0">

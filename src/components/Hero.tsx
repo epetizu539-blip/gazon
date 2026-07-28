@@ -5,7 +5,8 @@
 
 import React from 'react';
 import { CheckCircle2, ShieldCheck, Flame, Star, Compass, Snowflake, ArrowRight } from 'lucide-react';
-import heroLawnImg from '../assets/images/hero_lawn.jpg';
+// @ts-ignore
+import heroLawnImg from '../assets/images/regenerated_image_1784665979097.png';
 
 interface HeroProps {
   onOpenModal: (title: string, subtitle: string, buttonText: string, source: string) => void;
@@ -151,18 +152,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenModal }) => {
                     src={heroLawnImg}
                     alt="Красивый постеленный рулонный газон у роскошного загородного дома"
                     className="w-full h-[380px] sm:h-[460px] object-cover group-hover:scale-105 transition-all duration-700"
-                    fetchPriority="high"
-                    decoding="async"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      if (!target.dataset.tried) {
-                        target.dataset.tried = '1';
-                        target.src = '/images/hero_lawn.jpg';
-                      } else if (target.dataset.tried === '1') {
-                        target.dataset.tried = '2';
-                        target.src = '/images/hero_lawn.webp';
-                      }
-                    }}
+                    referrerPolicy="no-referrer"
                   />
                   
                   {/* Visual image bottom gradient overlay with soft translucent feel */}

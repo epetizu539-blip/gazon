@@ -4,10 +4,13 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { ArrowUpRight, Sparkles, CheckCircle2 } from 'lucide-react';
 
-import autoIrrigationImg from '../../assets/images/auto_irrigation.jpg';
-import drainageImg from '../../assets/images/drainage_system.jpg';
-import pavingStonesImg from '../../assets/images/paving_stones.jpg';
-import landscapeLightingImg from '../../assets/images/landscape_lighting.jpg';
+// @ts-ignore
+import autoIrrigationImg from '../../assets/images/regenerated_image_1785007236292.png';
+const drainageImg = "https://images.unsplash.com/photo-1590682680695-43b964a3ae17?q=80&w=600&auto=format&fit=crop";
+// @ts-ignore
+import pavingStonesImg from '../../assets/images/regenerated_image_1785007288376.png';
+// @ts-ignore
+import landscapeLightingImg from '../../assets/images/regenerated_image_1785007311805.png';
 
 // Utility for class names
 const cn = (...classes: (string | boolean | undefined)[]) => classes.filter(Boolean).join(' ');
@@ -125,6 +128,25 @@ interface GalleryCardProps {
 // Gallery Card Component matching site styling
 const GalleryCard: React.FC<GalleryCardProps> = ({ item, index, onSelect }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["6deg", "-6deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-6deg", "6deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   const cardVariants = {
     offscreen: { y: 40, opacity: 0 },
@@ -141,36 +163,31 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ item, index, onSelect }) => {
       variants={cardVariants}
       initial="offscreen"
       whileInView="onscreen"
-      whileHover={{ y: -6 }}
       viewport={{ once: true, amount: 0.2 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       onClick={() => onSelect && onSelect(item)}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       className="group relative w-full rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-2xl hover:border-brand-emerald/40 cursor-pointer overflow-hidden transition-all duration-300 flex flex-col justify-between"
     >
       {/* Top Image Container */}
-      <div className="relative h-52 w-full overflow-hidden bg-slate-100">
+      <div className="relative h-56 w-full overflow-hidden bg-slate-100">
         <img
           src={item.image}
           alt={item.title}
-          loading="eager"
-          decoding="sync"
           className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
           onError={(e) => {
-            const target = e.currentTarget;
-            if (!target.dataset.fallbackTried) {
-              target.dataset.fallbackTried = '1';
-              target.src = `/images/${item.id}.jpg`;
-            } else if (target.dataset.fallbackTried === '1') {
-              target.dataset.fallbackTried = '2';
-              target.src = `/images/${item.id}.webp`;
-            }
+            const target = e.target as HTMLImageElement;
+            target.onerror = null;
+            target.src = 'https://images.unsplash.com/photo-1558904541-efa8c196b27d?q=80&w=600&auto=format&fit=crop';
           }}
         />
         <GenerativeArtCanvas isHovered={isHovered} />
 
-        {/* Gradient overlay for text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-900/20 to-transparent pointer-events-none"></div>
+        {/* Gradient overlay for contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-900/10 to-transparent"></div>
 
         {/* Top category badge */}
         <div className="absolute top-4 left-4 z-10">

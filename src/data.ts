@@ -5,17 +5,15 @@
 
 import { LawnType, QuizQuestion, Review } from './types';
 
-// Image imports for bundler resolution
-import case1Before from './assets/images/case1_before.jpg';
-import case1After from './assets/images/case1_after.jpg';
+// @ts-ignore
+import case1Before from './assets/images/regenerated_image_1784481828760.jpg';
+// @ts-ignore
+import case1After from './assets/images/regenerated_image_1784486181579.png';
+// @ts-ignore
 import lawnBefore from './assets/images/lawn_before.jpg';
-import lawnAfter from './assets/images/lawn_after.jpg';
-import lawnUniversalImg from './assets/images/lawn_universal.jpg';
-import lawnPremiumImg from './assets/images/lawn_premium.jpg';
-import lawnEliteImg from './assets/images/lawn_elite.jpg';
-import lawnShadowImg from './assets/images/lawn_shadow.jpg';
-import avatar1Img from './assets/images/avatar_1.jpg';
-import avatar2Img from './assets/images/avatar_2.jpg';
+// @ts-ignore
+import lawnAfter from './assets/images/regenerated_image_1784484296832.png';
+
 
 export const LAWN_TYPES: LawnType[] = [
   {
@@ -35,7 +33,7 @@ export const LAWN_TYPES: LawnType[] = [
       'Не требует сложного ухода и частого кошения'
     ],
     bestFor: 'Муниципальные скверы, обочины, широкие загородные поляны, коммерческая недвижимость.',
-    image: lawnUniversalImg
+    image: 'https://images.unsplash.com/photo-1533460004989-cef01064af7e?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'premium',
@@ -54,7 +52,7 @@ export const LAWN_TYPES: LawnType[] = [
       'Приятный на ощупь, идеален для ходьбы босиком'
     ],
     bestFor: 'Частные коттеджи, таунхаусы, зоны активного отдыха в элитных поселках.',
-    image: lawnPremiumImg
+    image: 'https://images.unsplash.com/photo-1592417817098-8f3d6fe19675?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'elite',
@@ -73,7 +71,7 @@ export const LAWN_TYPES: LawnType[] = [
       'Шелковистый уплотненный ворс, который долго держит форму'
     ],
     bestFor: 'Частные спортивные и детские площадки, гольф-поля, участки с высокой нагрузкой.',
-    image: lawnEliteImg
+    image: 'https://images.unsplash.com/photo-1558905619-17253b47cc9c?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'shadow',
@@ -92,7 +90,7 @@ export const LAWN_TYPES: LawnType[] = [
       'Устойчивость к грибковым заболеваниям во влажных тенистых местах'
     ],
     bestFor: 'Сады с густыми деревьями, тенистые внутренние дворики, участки рядом с высокими постройками.',
-    image: lawnShadowImg
+    image: 'https://images.unsplash.com/photo-1508873696983-2df519f0397e?auto=format&fit=crop&w=800&q=80'
   }
 ];
 
@@ -141,7 +139,7 @@ export const CASE_REVIEWS: Review[] = [
     beforeImage: case1Before,
     afterImage: case1After,
     date: '12.05.2026',
-    avatar: avatar1Img
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'
   },
   {
     id: 2,
@@ -154,7 +152,7 @@ export const CASE_REVIEWS: Review[] = [
     beforeImage: lawnBefore,
     afterImage: lawnAfter,
     date: '08.06.2026',
-    avatar: avatar2Img
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80'
   }
 ];
 
